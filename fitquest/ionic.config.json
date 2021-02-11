@@ -1,0 +1,8 @@
+{
+  "name": "FitQuest",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "6047ce50"
+}
