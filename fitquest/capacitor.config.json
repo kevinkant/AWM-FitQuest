@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "fitquest",
+  "appName": "FitQuest",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
