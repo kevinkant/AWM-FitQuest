@@ -9,10 +9,12 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { barbell, fastFoodOutline, homeOutline, personCircleOutline, starOutline } from 'ionicons/icons';
-import Tab1 from './pages/Tabs/Tab1';
-import Tab2 from './pages/Tabs/Tab2';
-import Tab3 from './pages/Tabs/Tab3';
+import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline } from 'ionicons/icons';
+import Home from './pages/Tabs/Home';
+import Workouts from './pages/Tabs/Workouts';
+import Profile from './pages/Tabs/Profile';
+import Achievements from './pages/Tabs/Achievements'
+import Diet from './pages/Tabs/Diet'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,50 +38,63 @@ import './theme/variables.css';
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
+
       <IonTabs>
+
         <IonRouterOutlet>
-          <Route exact path="/tab1">
-            <Tab1 />
+          <Route exact path="/Home">
+            <Home />
           </Route>
-          <Route exact path="/tab2">
-            <Tab2 />
+          <Route exact path="/Workouts">
+            <Workouts />
           </Route>
-          <Route path="/tab3">
-            <Tab3 />
+          <Route path="/Profile">
+            <Profile />
           </Route>
-          <Route path="/tab4">
-            <Tab3 />
+          <Route path="/Achievements">
+            <Achievements />
           </Route>
-          <Route path="/tab5">
-            <Tab3 />
+          <Route path="/Diet">
+            <Diet />
           </Route>
           <Route exact path="/">
-            <Redirect to="/tab1" />
+            <Redirect to="/Home" />
           </Route>
         </IonRouterOutlet>
+
         <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/tab1">
+
+          <IonTabButton tab="Home" href="/Home">
             <IonIcon icon={homeOutline} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab2" href="/tab2">
+
+          <IonTabButton tab="Diet" href="/Diet">
+            <IonIcon icon={restaurantOutline} />
+            <IonLabel>Diet</IonLabel>
+          </IonTabButton>
+
+          <IonTabButton tab="Workouts" href="/Workouts">
             <IonIcon icon={barbell} />
             <IonLabel>Workouts</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab3" href="/tab3">
-            <IonIcon icon={personCircleOutline} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab4" href="/tab4">
+
+          <IonTabButton tab="Achievements" href="/Achievements">
             <IonIcon icon={starOutline} />
             <IonLabel>Achievements</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="tab5" href="/tab5">
-            <IonIcon icon={fastFoodOutline} />
-            <IonLabel>Diet</IonLabel>
+
+          <IonTabButton tab="Profile" href="/Profile">
+            <IonIcon icon={personCircleOutline} />
+            <IonLabel>Profile</IonLabel>
           </IonTabButton>
+
+          
+          
         </IonTabBar>
+
       </IonTabs>
+
     </IonReactRouter>
   </IonApp>
 );

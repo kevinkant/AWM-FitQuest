@@ -1,13 +1,13 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ExploreContainer from '../../components/ExploreContainer';
-import './Tab1.css';
+import './Login.css';
 
-const Tab1: React.FC = () => {
+const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Home</IonTitle>
+          <IonTitle>Login</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -22,4 +22,4 @@ const Tab1: React.FC = () => {
   );
 };
 
-export default Tab1;
+export default Login;
