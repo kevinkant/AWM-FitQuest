@@ -4,10 +4,12 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardH
 
 export const WorkoutCards: React.FC = () => {
   return (
+
+    //Make modular -- with parameters, props etc.
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>CardExamples</IonTitle>
+          <IonTitle>Choose a workout form!</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
@@ -16,13 +18,12 @@ export const WorkoutCards: React.FC = () => {
             
           <IonCardHeader>
           <IonCardTitle>Strength Training</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+            <IonCardSubtitle>Improve your strength by using (heavy) weights</IonCardSubtitle>
             
           </IonCardHeader>
 
           <IonCardContent>
-            Keep close to Nature's heart... and break clear away, once in awhile,
-            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+            
             </IonCardContent>
         </IonCard>
 
@@ -30,13 +31,12 @@ export const WorkoutCards: React.FC = () => {
             
           <IonCardHeader>
           <IonCardTitle >Bodyweight Training</IonCardTitle>
-            <IonCardSubtitle>Card Subtitle</IonCardSubtitle>
+            <IonCardSubtitle>Improve your strength by using your own bodyweight</IonCardSubtitle>
             
           </IonCardHeader>
 
           <IonCardContent>
-            Keep close to Nature's heart... and break clear away, once in awhile,
-            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+           
             </IonCardContent>
         </IonCard>
 
@@ -49,9 +49,8 @@ export const WorkoutCards: React.FC = () => {
           </IonCardHeader>
 
           <IonCardContent>
-            Keep close to Nature's heart... and break clear away, once in awhile,
-            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-            </IonCardContent>
+           A different form of cardio where you
+          </IonCardContent>
         </IonCard>
 
        
