@@ -5,7 +5,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardH
 export const WorkoutCards: React.FC = () => {
   return (
 
-    //Make modular -- with parameters, props etc.
+    
     <IonPage>
       <IonHeader>
         <IonToolbar>
@@ -15,7 +15,6 @@ export const WorkoutCards: React.FC = () => {
       <IonContent>
 
         <IonCard>
-            
           <IonCardHeader>
           <IonCardTitle>Strength Training</IonCardTitle>
             <IonCardSubtitle>Improve your strength by using (heavy) weights</IonCardSubtitle>
@@ -52,10 +51,6 @@ export const WorkoutCards: React.FC = () => {
            A different form of cardio where you
           </IonCardContent>
         </IonCard>
-
-       
-
-        
       </IonContent>
     </IonPage>
   );

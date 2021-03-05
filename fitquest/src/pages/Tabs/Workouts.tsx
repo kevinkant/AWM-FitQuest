@@ -20,7 +20,7 @@ const Workouts: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-          <WorkoutCards />
+        <WorkoutCards />
 
       </IonContent>
 
