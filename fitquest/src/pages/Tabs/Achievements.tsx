@@ -1,5 +1,4 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import ExploreContainer from '../../components/ExploreContainer';
 import './Achievements.css';
 
 const Achievements: React.FC = () => {
@@ -16,7 +15,6 @@ const Achievements: React.FC = () => {
             <IonTitle size="large">Achievements</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer name="This is the Achievements page" />
       </IonContent>
     </IonPage>
   );
