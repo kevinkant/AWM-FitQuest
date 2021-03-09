@@ -1,5 +1,10 @@
 import React from 'react';
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/react';
+// import workoutInfo from './WorkoutInfo'
+
+// function createCardInfo(workoutInfo: string) {
+//   return 
+// }
 
 
 export const WorkoutCards: React.FC = () => {
