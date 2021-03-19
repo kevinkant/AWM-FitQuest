@@ -9,7 +9,7 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline } from 'ionicons/icons';
+import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline, informationOutline } from 'ionicons/icons';
 import Login from './pages/Login screen/Login'
 import Home from './pages/Tabs/Home';
 import Workouts from './pages/Tabs/Workouts';
@@ -98,10 +98,10 @@ const App: React.FC = () => (
 
         <IonTabBar slot="bottom">
 
-          {/* <IonTabButton tab="Login" href="/Login">
+          <IonTabButton tab="Login" href="/Login">
             <IonIcon icon={informationOutline} />
             <IonLabel>Login test</IonLabel>
-          </IonTabButton> */}
+          </IonTabButton>
 
           <IonTabButton tab="Home" href="/Home">
             <IonIcon icon={homeOutline} />

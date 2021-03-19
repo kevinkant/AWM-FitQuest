@@ -2,6 +2,7 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput
 import { useState } from 'react';
 import './Login.css';
 import { signInWithGoogle } from '../../FirebaseConfig'
+import firebase from 'firebase';
 
 
 const Login: React.FC = () => {
