@@ -1,4 +1,4 @@
-import { IonAvatar, IonContent, IonHeader, IonItem, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import {  IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Home.css';
 
 
@@ -6,8 +6,9 @@ import './Home.css';
 const Home: React.FC = () => {
   return (
     <IonPage>
+
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonTitle>Home</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -18,9 +19,11 @@ const Home: React.FC = () => {
             <IonTitle size="large">Home</IonTitle>
           </IonToolbar>
         </IonHeader>
+
         
 
-        <IonText>Hello world</IonText>
+        <IonText>Hello wold</IonText>
+
       </IonContent>
     </IonPage>
   );

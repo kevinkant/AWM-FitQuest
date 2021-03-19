@@ -1,9 +1,10 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "fitquest",
+  "appName": "FitQuest",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "build",
+  "windowsAndroidStudioPath": "C:\\Users\\kevin\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\201.6953283\\bin\\studio64.exe",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0

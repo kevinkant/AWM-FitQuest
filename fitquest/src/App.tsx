@@ -9,13 +9,17 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline, informationOutline } from 'ionicons/icons';
+import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline } from 'ionicons/icons';
 import Login from './pages/Login screen/Login'
 import Home from './pages/Tabs/Home';
 import Workouts from './pages/Tabs/Workouts';
 import Profile from './pages/Tabs/Profile';
 import Achievements from './pages/Tabs/Achievements'
 import Diet from './pages/Tabs/Diet'
+import EditProfile from './pages/Profile/EditProfile'
+import Strength from './pages/Workouts/Strength/Strength'
+import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
+import Cardio from './pages/Workouts/Hiit/Hiit'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -41,9 +45,8 @@ const App: React.FC = () => (
     <IonReactRouter>
 
       <IonTabs>
-
         <IonRouterOutlet>
-
+          
         <Route exact path="/Login">
             <Login />
           </Route>
@@ -71,15 +74,34 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/Home" />
           </Route>
+
+
+          <Route exact path="/EditProfile">
+            <EditProfile />
+          </Route>
+
+          <Route exact path="/Strength">
+          <Strength />
+        </Route>
+
+        <Route exact path="/Bodyweight">
+          <Bodyweight />
+        </Route>
+
+        <Route exact path="/Cardio">
+          <Cardio />
+        </Route>
           
         </IonRouterOutlet>
 
+       
+
         <IonTabBar slot="bottom">
 
-        <IonTabButton tab="Login" href="/Login">
+          {/* <IonTabButton tab="Login" href="/Login">
             <IonIcon icon={informationOutline} />
             <IonLabel>Login test</IonLabel>
-          </IonTabButton>
+          </IonTabButton> */}
 
           <IonTabButton tab="Home" href="/Home">
             <IonIcon icon={homeOutline} />
@@ -106,8 +128,8 @@ const App: React.FC = () => (
             <IonLabel>Profile</IonLabel>
           </IonTabButton>
 
-          
-          
+
+
         </IonTabBar>
 
       </IonTabs>
