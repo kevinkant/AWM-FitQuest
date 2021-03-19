@@ -5,7 +5,7 @@ const Achievements: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonTitle>Achievements</IonTitle>
         </IonToolbar>
       </IonHeader>

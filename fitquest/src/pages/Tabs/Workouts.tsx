@@ -1,7 +1,6 @@
-import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Workouts.css';
-import { WorkoutCards } from "../Workouts/Cards"
-import firebase from '../../FirebaseConfig'
+import Fitcards from '../Workouts/Fitcards'
 
 const Workouts: React.FC = () => {
 
@@ -13,7 +12,7 @@ const Workouts: React.FC = () => {
     <IonPage>
 
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonTitle>Workouts</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -25,10 +24,10 @@ const Workouts: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
+        <Fitcards />
+        {/* <IonButton>Add new workout</IonButton> */}
         
-        <IonButton>Add new workout</IonButton>
-        
-        <WorkoutCards />
+      
         
       </IonContent>
     </IonPage>

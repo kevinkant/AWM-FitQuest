@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel } from '@ionic/react';
 import { useState } from 'react';
 import './Login.css';
 import { signInWithGoogle } from '../../FirebaseConfig'
@@ -14,8 +14,8 @@ const Login: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Login</IonTitle>
+        <IonToolbar color="primary">
+          <IonTitle >Login</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -27,11 +27,13 @@ const Login: React.FC = () => {
         </IonHeader>
 
         <IonItem>
-            <IonInput value={userName} placeholder="Username" onIonChange={e => setUserName(e.detail.value!)}></IonInput>
+          <IonLabel position="floating">Username</IonLabel>
+            <IonInput value={userName}  onIonChange={e => setUserName(e.detail.value!)}></IonInput>
           </IonItem>
 
           <IonItem>
-            <IonInput type="password"  value={password} placeholder="Password" onIonChange={e => setPassword(e.detail.value!)}></IonInput>
+          <IonLabel position="floating">Password</IonLabel>
+            <IonInput type="password"  value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
 
           <IonButton>Login</IonButton>
