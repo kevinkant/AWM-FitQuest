@@ -21,6 +21,7 @@ import Strength from './pages/Workouts/Strength/Strength'
 import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
 import Cardio from './pages/Workouts/Hiit/Hiit'
 
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -41,101 +42,103 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
+  
+    <IonApp>
+      <IonReactRouter>
 
-      <IonTabs>
-        <IonRouterOutlet>
-          
-        <Route exact path="/Login">
-            <Login />
-          </Route>
+        <IonTabs>
+          <IonRouterOutlet>
 
-          <Route exact path="/Home">
-            <Home />
-          </Route>
+            <Route exact path="/Login">
+              <Login />
+            </Route>
 
-          <Route exact path="/Workouts">
-            <Workouts />
-          </Route>
+            <Route exact path="/Home">
+              <Home />
+            </Route>
 
-          <Route path="/Profile">
-            <Profile />
-          </Route>
+            <Route exact path="/Workouts">
+              <Workouts />
+            </Route>
 
-          <Route path="/Achievements">
-            <Achievements />
-          </Route>
+            <Route path="/Profile">
+              <Profile />
+            </Route>
 
-          <Route path="/Diet">
-            <Diet />
-          </Route>
+            <Route path="/Achievements">
+              <Achievements />
+            </Route>
 
-          <Route exact path="/">
-            <Redirect to="/Home" />
-          </Route>
+            <Route path="/Diet">
+              <Diet />
+            </Route>
+
+            <Route exact path="/">
+              <Redirect to="/Home" />
+            </Route>
 
 
-          <Route exact path="/EditProfile">
-            <EditProfile />
-          </Route>
+            <Route exact path="/EditProfile">
+              <EditProfile />
+            </Route>
 
-          <Route exact path="/Strength">
-          <Strength />
-        </Route>
+            <Route exact path="/Strength">
+              <Strength />
+            </Route>
 
-        <Route exact path="/Bodyweight">
-          <Bodyweight />
-        </Route>
+            <Route exact path="/Bodyweight">
+              <Bodyweight />
+            </Route>
 
-        <Route exact path="/Cardio">
-          <Cardio />
-        </Route>
-          
-        </IonRouterOutlet>
+            <Route exact path="/Cardio">
+              <Cardio />
+            </Route>
 
-       
-
-        <IonTabBar slot="bottom">
-
-          <IonTabButton tab="Login" href="/Login">
-            <IonIcon icon={informationOutline} />
-            <IonLabel>Login test</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="Home" href="/Home">
-            <IonIcon icon={homeOutline} />
-            <IonLabel>Home</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="Diet" href="/Diet">
-            <IonIcon icon={restaurantOutline} />
-            <IonLabel>Diet</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="Workouts" href="/Workouts">
-            <IonIcon icon={barbell} />
-            <IonLabel>Workouts</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="Achievements" href="/Achievements">
-            <IonIcon icon={starOutline} />
-            <IonLabel>Achievements</IonLabel>
-          </IonTabButton>
-
-          <IonTabButton tab="Profile" href="/Profile">
-            <IonIcon icon={personCircleOutline} />
-            <IonLabel>Profile</IonLabel>
-          </IonTabButton>
+          </IonRouterOutlet>
 
 
 
-        </IonTabBar>
+          <IonTabBar slot="bottom">
 
-      </IonTabs>
+            <IonTabButton tab="Login" href="/Login">
+              <IonIcon icon={informationOutline} />
+              <IonLabel>Login test</IonLabel>
+            </IonTabButton>
 
-    </IonReactRouter>
-  </IonApp>
+            <IonTabButton tab="Home" href="/Home">
+              <IonIcon icon={homeOutline} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="Diet" href="/Diet">
+              <IonIcon icon={restaurantOutline} />
+              <IonLabel>Diet</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="Workouts" href="/Workouts">
+              <IonIcon icon={barbell} />
+              <IonLabel>Workouts</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="Achievements" href="/Achievements">
+              <IonIcon icon={starOutline} />
+              <IonLabel>Achievements</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="Profile" href="/Profile">
+              <IonIcon icon={personCircleOutline} />
+              <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+
+
+
+          </IonTabBar>
+
+        </IonTabs>
+
+      </IonReactRouter>
+    </IonApp>
+
 );
 
 export default App;

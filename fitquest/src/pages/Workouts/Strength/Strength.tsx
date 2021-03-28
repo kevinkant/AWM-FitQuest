@@ -1,9 +1,27 @@
-import { IonBackButton, IonButtons, IonHeader, IonPage, IonToolbar } from '@ionic/react';
-import React from 'react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel } from '@ionic/react';
+import {firestore} from '../../../FirebaseConfig';
+import React, { useState } from 'react';
+
+// const data =  firebase.firestore().collection("Strength exercises").get().then((querySnapshot) => {
+//     querySnapshot.forEach((doc) => {
+//         console.log(`${doc.id} => ${doc.data()}`);
+//     });
+//   });
+
 
 
 
 const Strength: React.FC = () => {
+
+    const [exercise, setExercise] = useState<String>();
+
+    // let query = firestore
+    //     .collection('Strength exercises')
+    //     .orderBy('Name', 'asc')
+    //     .limit(10) //testen if it shows up
+
+    console.log(firestore.collection('Strength exercises').doc().get)
+
     return (
         <IonPage>
 
@@ -17,7 +35,15 @@ const Strength: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
-            
+            <IonContent>
+                <IonList>
+                    <IonItem>
+                        <IonLabel></IonLabel>
+                    </IonItem>
+                </IonList>
+            </IonContent>
+
+
         </IonPage>
     )
 
