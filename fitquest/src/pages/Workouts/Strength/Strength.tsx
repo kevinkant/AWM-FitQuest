@@ -1,31 +1,22 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel } from '@ionic/react';
-import {firestore} from '../../../FirebaseConfig';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonCard, IonCardContent, IonIcon } from '@ionic/react';
+import { firestore } from '../../../FirebaseConfig';
 import React, { useState } from 'react';
+import { pin } from 'ionicons/icons';
 
-// const data =  firebase.firestore().collection("Strength exercises").get().then((querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//         console.log(`${doc.id} => ${doc.data()}`);
-//     });
-//   });
 
 
 
 
 const Strength: React.FC = () => {
 
-    const [exercise, setExercise] = useState<String>();
 
-    // let query = firestore
-    //     .collection('Strength exercises')
-    //     .orderBy('Name', 'asc')
-    //     .limit(10) //testen if it shows up
 
-    console.log(firestore.collection('Strength exercises').doc().get)
+
 
     return (
         <IonPage>
 
-            {/*Back button config */}
+
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonButtons slot="start">
@@ -36,14 +27,50 @@ const Strength: React.FC = () => {
             </IonHeader>
 
             <IonContent>
-                <IonList>
+                <IonCard>
                     <IonItem>
-                        <IonLabel></IonLabel>
+                        <IonIcon icon={pin} slot="start" />
+                        <IonLabel>Strength Exercise List</IonLabel>
+                        <IonButton fill="outline" slot="end" href="/Exerciselist">View</IonButton>
                     </IonItem>
-                </IonList>
+
+                    <IonCardContent>
+                        This list contains default exercises.
+                        You can also add your own exercise
+                    </IonCardContent>
+                </IonCard>
+
+
+
+                <IonCard>
+                    <IonItem>
+                        <IonIcon icon={pin} slot="start" />
+                        <IonLabel>Workout routines</IonLabel>
+                        <IonButton fill="outline" slot="end" href="/Routines">View</IonButton>
+                    </IonItem>
+
+                    <IonCardContent>
+                        Check your workout routines
+                    </IonCardContent>
+                </IonCard>
+
+
+
+                <IonCard>
+                    <IonItem>
+                        <IonIcon icon={pin} slot="start" />
+                        <IonLabel>Workout history</IonLabel>
+                        <IonButton fill="outline" slot="end">View</IonButton>
+                    </IonItem>
+
+                    <IonCardContent>
+                        Keep track of your exercise history!
+                    </IonCardContent>
+                </IonCard>
+
+
+
             </IonContent>
-
-
         </IonPage>
     )
 

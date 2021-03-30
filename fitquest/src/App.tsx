@@ -20,6 +20,8 @@ import EditProfile from './pages/Profile/EditProfile'
 import Strength from './pages/Workouts/Strength/Strength'
 import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
 import Cardio from './pages/Workouts/Hiit/Hiit'
+import ExerciseList from './pages/Workouts/Strength/ExerciseList';
+import Routines from './pages/Workouts/Strength/Routines';
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -40,6 +42,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+
 
 const App: React.FC = () => (
   
@@ -84,6 +87,14 @@ const App: React.FC = () => (
 
             <Route exact path="/Strength">
               <Strength />
+            </Route>
+
+            <Route exact path="/Exerciselist">
+              <ExerciseList />
+            </Route>
+
+            <Route exact path="/Routines">
+              <Routines />
             </Route>
 
             <Route exact path="/Bodyweight">

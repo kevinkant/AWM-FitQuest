@@ -3,18 +3,18 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import UserProvider from '../src/pages/providers/UserProvider.jsx'
+import UserProvider from '../src/pages/providers/UserProvider'
 //import firebase from '../src/FirebaseConfig';
 
 
 
 ReactDOM.render(
-  <React.StrictMode>
+  
     <UserProvider>
       <App />
       </UserProvider>
 
-  </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './Login.css';
 import { auth, signInWithGoogle, returnID } from '../../FirebaseConfig'
 import firebase from 'firebase';
-import { UserContext } from '../providers/UserProvider.jsx'
+import { UserContext } from '../providers/UserProvider'
 
 
 const Login: React.FC = () => {

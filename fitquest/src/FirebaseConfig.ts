@@ -18,13 +18,30 @@ firebase.initializeApp(config);
 // firebase.auth();
 
 export const firestore = firebase.firestore();
+
+
 export const auth = firebase.auth();
 
 export const provider = new firebase.auth.GoogleAuthProvider();
-export const signInWithGoogle = () => auth.signInWithPopup(provider)
-export const signOut = () => firebase.auth().signOut();
+
+
+export const signInWithGoogle = () => {
+    auth.signInWithPopup(provider)
+    .then(
+        
+        firestore.collection("Users").doc(auth.currentUser?.uid).set
+    )
+}
+
+
+export const signOut = () => {
+    firebase.auth().signOut()
+    console.log("User logged out")
+};
+
+
 export const returnID = () => firebase.auth().currentUser;
-  
+
 
 export default firebase;
 

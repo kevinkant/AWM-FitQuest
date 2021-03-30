@@ -1,16 +1,15 @@
 import { IonContent, IonBackButton, IonItem, IonInput, IonHeader, IonItemDivider, IonPage, IonToolbar, IonButtons, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton } from '@ionic/react';
 import React, { useContext, useState } from 'react';
 import firebase, { firestore, signOut, auth } from '../../FirebaseConfig'
-import { UserContext } from '../providers/UserProvider.jsx'
+import { UserContext } from '../providers/UserProvider'
+
 
 
 
 
 export const EditProfile: React.FC = () => {
 
-    const user = useContext(UserContext);
-
-    // const { uid } = user
+    //const user = useContext(UserContext);
 
     const [text, setText] = useState<string>();
     const [gender, setGender] = useState<string>();
@@ -21,23 +20,29 @@ export const EditProfile: React.FC = () => {
 
     
 
-    //console.log(firebase.auth().currentUser?.uid)
-    console.log('---------------------------------')
-    console.log(user)
+    console.log(auth.currentUser?.displayName)
+    
+    //console.log(user)
 
 
+    //Get the uid from the logged-in user
+    //TODO implement this with context or redux
+    let uid = firebase.auth().currentUser?.uid;
 
-    //Save stats to firestore
-    //Test database
-    async function saveStats() {
+    /**
+     * Saves the stats into the database
+     *
+     *  uid is passed as a parameter to act as the document ID
+     */
+     function saveStats() {
         try {
-            return firebase.firestore().collection("Users").doc().set({
+            return (firebase.firestore().collection("Users").doc(uid).set({
                 Name: text,
                 Birthday: selectedDate,
                 Gender: gender,
                 Height: height,
                 Weight: weight,
-            });
+            }));
         } catch (error) {
             console.error('Error writing new message to database', error);
         }
@@ -95,11 +100,15 @@ export const EditProfile: React.FC = () => {
                 </IonItem>
 
 
-                <IonButton onClick={saveStats} href="/Profile">Save</IonButton>
+
+                {/*Save the stats and return to the user's profile */}
+                <IonButton onClick={() => saveStats()} href="/Profile">Save</IonButton>
 
 
                 {/*Sign out of the app and return to the Login screen*/}
-                <IonButton onClick={signOut} href="/Login">Save</IonButton>
+                <IonButton onClick={() => signOut()}  href="/Login">Save</IonButton>
+
+
             </IonContent>
         </IonPage>
     );
