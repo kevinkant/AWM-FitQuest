@@ -9,7 +9,7 @@ import { add } from 'ionicons/icons';
 const ExerciseList: React.FC = () => {
 
     const [showModal, setShowModal] = useState(false);
-    const [exercise, setExercise] = useState<String>();
+    //const [exercise, setExercise] = useState<String>();
     const [name, setName] = useState<string>();
     const [muscleGroup, setMuscleGroup] = useState<string>();
     const [material, setMaterial] = useState<string>();

@@ -42,6 +42,8 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
+import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
 
 
 const App: React.FC = () => (
@@ -99,6 +101,14 @@ const App: React.FC = () => (
 
             <Route exact path="/Bodyweight">
               <Bodyweight />
+            </Route>
+
+            <Route exact path="/Bodyweightexerciselist">
+              <BodyExerciseList />
+            </Route>
+
+            <Route exact path="/Bodyroutines">
+              <BodyRoutines />
             </Route>
 
             <Route exact path="/Cardio">
