@@ -1,6 +1,6 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput } from '@ionic/react';
 import { firestore, auth } from '../../../FirebaseConfig';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
 
 
@@ -8,44 +8,56 @@ import { add } from 'ionicons/icons';
 
 const ExerciseList: React.FC = () => {
 
+    let uid = auth.currentUser?.uid;
+
+    //Modal is used to add a new exercise to the user's database
     const [showModal, setShowModal] = useState(false);
-    //const [exercise, setExercise] = useState<String>();
+
+    //State for the exercise list
+    const [exercise, setExercise] = useState<Array<any>>([]);
+
+    //State variables/functions to add a new exercise
     const [name, setName] = useState<string>();
     const [muscleGroup, setMuscleGroup] = useState<string>();
     const [material, setMaterial] = useState<string>();
+    
 
-    let uid = auth.currentUser?.uid;
-
+    //TODO use filter to query on muscle group
     const filter = "Muscle Group";
 
-    /**
-     * @description Gets all exercises in the database
-     * 
-     * Default sort by name
-     * 
-     * User can adjust the sorting by choosing out of filter list
-     * 
-     * That selection gets passed through as a interpolated string
-     */
-    const getExercises = () => {
-        firestore.collection("Strength exercises")
-            .orderBy(`${filter}`, 'asc')
-            .limit(10)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", doc.data());
-                    // console.log(doc.data().Name)
+   
 
-                    //console.log(doc.data()["Muscle Group"])
+    //Effect hook to load the data only once
+    useEffect(() => {
+
+        //Array to store the incoming data 
+        const exList: any[] = [];
+
+             firestore.collection("Strength exercises")
+                .orderBy(`${filter}`, 'asc')
+                .limit(5)
+                .get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        //console.log(doc.id, " => ", data);
+                        let data = doc.data()
+
+                        //Push the data to the array together with
+                        //document id to function as a key for the list
+                        //rest of the data is spread
+                        exList.push({ id: doc.id, ...data })
+                         
+                    });
+                    setExercise(exList)  
+                })
+                .catch((error) => {
+                    console.log("Error getting documents: ", error);
                 });
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-    };
+        
 
-    console.log(getExercises())
+    }, [])
+
+    
 
     /**
      * This function saves a new exercise to the User's personal database
@@ -75,10 +87,12 @@ const ExerciseList: React.FC = () => {
 
             <IonContent>
                 <IonList>
-                    <IonItem>
-                        <IonLabel>de</IonLabel>
-                    </IonItem>
-
+                    {exercise.map((el => (
+                        <IonItem key={el.id}>
+                            <IonLabel>{el.Name}</IonLabel>
+                            {el["Muscle Group"]}
+                        </IonItem>
+                    )))}
                 </IonList>
             </IonContent>
 

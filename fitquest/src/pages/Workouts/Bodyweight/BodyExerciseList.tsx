@@ -1,58 +1,67 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon, IonInput, IonModal } from '@ionic/react';
-import {auth, firestore} from '../../../FirebaseConfig';
-import React, { useState } from 'react';
+import { auth, firestore } from '../../../FirebaseConfig';
+import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
+
 
 
 const BodyExerciseList: React.FC = () => {
 
-    const [showModal, setShowModal] = useState(false);
-    //const [exercise, setExercise] = useState<String>();
-    const [name, setName] = useState<string>();
-    const [muscleGroup, setMuscleGroup] = useState<string>();
-    const [difficulty, setDifficulty] = useState<string>();
-
     let uid = auth.currentUser?.uid;
+    
 
+    //Modal is used to add a new exercise to the user's database
+    const [showModal, setShowModal] = useState(false);
+
+    //State for the exercise list
+    const [exercise, setExercise] = useState<Array<any>>([]);
+
+    //State variables/functions to add a new exercise
+    const [newName, setNewName] = useState<string>();
+    const [newMuscleGroup, setNewMuscleGroup] = useState<string>();
+    const [newDifficulty, setNewDifficulty] = useState<string>();
+
+
+    //TODO use filter to query on muscle group
     const filter = "Muscle Group";
 
-    /**
-     * @description Gets all exercises in the database
-     * 
-     * Default sort by name
-     * 
-     * User can adjust the sorting by choosing out of filter list
-     * 
-     * That selection gets passed through as a interpolated string
-     */
-    const getExercises = () => {
-        firestore.collection("Bodyweight exercises")
+   
+    //Effect hook to load the data only once
+    useEffect(() => {
+
+         //Array to store the incoming data 
+         const exList: any[]= [];
+
+         firestore.collection("Bodyweight exercises")
             .orderBy(`${filter}`, 'asc')
             .limit(10)
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", doc.data());
-                    // console.log(doc.data().Name)
+                    //console.log(doc.id, " => ", data);
+                    let data = doc.data()
 
-                    //console.log(doc.data()["Muscle Group"])
+                    //Push the data to the array together with
+                    //document id to function as a key for the list and rest of the data is spread
+                    exList.push({ id: doc.id, ...data })
                 });
+                setExercise(exList)
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             });
-    };
+    
+    }, [])
 
-    console.log(getExercises())
 
     /**
      * This function saves a new exercise to the User's personal database
      */
     function addExercise() {
         firestore.collection("Users").doc(uid).collection("Personal Bodyweight ExList").add({
-            Name: name,
-            "Muscle Group": muscleGroup,
-            Difficulty: difficulty
+            Name: newName,
+            "Muscle Group": newMuscleGroup,
+            Difficulty: newDifficulty
         })
         console.log("Exercise added")
     }
@@ -65,20 +74,23 @@ const BodyExerciseList: React.FC = () => {
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="/Strength" />
+                        <IonBackButton defaultHref="/Bodyweight" />
                     </IonButtons>
-                    Bodyweight Exercises list
-                </IonToolbar>
+                Bodyweight Exercises list
+            </IonToolbar>
             </IonHeader>
 
             <IonContent>
                 <IonList>
-                    <IonItem>
-                        <IonLabel>de</IonLabel>
-                    </IonItem>
-
+                    {exercise.map((el => (
+                        <IonItem key ={el.id}>
+                            <IonLabel>{el.Name}</IonLabel>
+                            {el.Difficulty}
+                        </IonItem>
+                    )))}
                 </IonList>
             </IonContent>
+
 
 
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
@@ -107,15 +119,15 @@ const BodyExerciseList: React.FC = () => {
 
                 <IonContent>
                     <IonItem>
-                        <IonInput value={name} placeholder="Exercise Name" onIonChange={e => setName(e.detail.value!)}></IonInput>
+                        <IonInput value={newName} placeholder="Exercise Name" onIonChange={e => setNewName(e.detail.value!)}></IonInput>
                     </IonItem>
 
                     <IonItem>
-                        <IonInput value={muscleGroup} placeholder="Muscle Group" onIonChange={e => setMuscleGroup(e.detail.value!)}></IonInput>
+                        <IonInput value={newMuscleGroup} placeholder="Muscle Group" onIonChange={e => setNewMuscleGroup(e.detail.value!)}></IonInput>
                     </IonItem>
 
                     <IonItem>
-                        <IonInput value={difficulty} placeholder="Difficulty" onIonChange={e => setDifficulty(e.detail.value!)}></IonInput>
+                        <IonInput value={newDifficulty} placeholder="Difficulty" onIonChange={e => setNewDifficulty(e.detail.value!)}></IonInput>
                     </IonItem>
                 </IonContent>
             </IonModal>
@@ -123,7 +135,7 @@ const BodyExerciseList: React.FC = () => {
         </IonPage>
     )
 
-    
+
 };
 
 export default BodyExerciseList;
