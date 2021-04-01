@@ -1,7 +1,7 @@
 import { IonContent, IonBackButton, IonItem, IonInput, IonHeader, IonItemDivider, IonPage, IonToolbar, IonButtons, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton } from '@ionic/react';
-import React, { useContext, useState } from 'react';
-import firebase, { firestore, signOut, auth } from '../../FirebaseConfig'
-import { UserContext } from '../providers/UserProvider'
+import React, { useState } from 'react';
+import firebase, { signOut, auth } from '../../FirebaseConfig'
+//import { UserContext } from '../providers/UserProvider'
 
 
 
@@ -13,7 +13,7 @@ export const EditProfile: React.FC = () => {
 
     const [text, setText] = useState<string>();
     const [gender, setGender] = useState<string>();
-    const [goal, setGoal] = useState<string>();
+    //const [goal, setGoal] = useState<string>();
     const [selectedDate, setSelectedDate] = useState<string>();
     const [height, setHeight] = useState<number>();
     const [weight, setWeight] = useState<number>();

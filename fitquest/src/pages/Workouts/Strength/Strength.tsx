@@ -1,6 +1,5 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonCard, IonCardContent, IonIcon } from '@ionic/react';
-import { firestore } from '../../../FirebaseConfig';
-import React, { useState } from 'react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonItem, IonLabel, IonButton, IonCard, IonCardContent, IonIcon } from '@ionic/react';
+import React from 'react';
 import { pin } from 'ionicons/icons';
 
 
