@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel } from '@ionic/react';
-import { useState } from 'react';
-import { auth, signInWithGoogle, returnID } from '../../FirebaseConfig'
+import React,  { useState } from 'react';
+//import { auth, signInWithGoogle, returnID } from '../../FirebaseConfig'
 
 
 const Register: React.FC = () => {

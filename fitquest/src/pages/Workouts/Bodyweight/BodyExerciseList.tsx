@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon, IonInput, IonModal } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon, IonInput, IonModal, IonToast } from '@ionic/react';
 import { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
@@ -8,10 +8,12 @@ import { add } from 'ionicons/icons';
 const BodyExerciseList: React.FC = () => {
 
     let uid = auth.currentUser?.uid;
-    
+
 
     //Modal is used to add a new exercise to the user's database
     const [showModal, setShowModal] = useState(false);
+    //Toast to confirm exercise has been added to the database
+    const [showToast, setShowToast] = useState(false);
 
     //State for the exercise list
     const [exercise, setExercise] = useState<Array<any>>([]);
@@ -25,14 +27,14 @@ const BodyExerciseList: React.FC = () => {
     //TODO use filter to query on muscle group
     const filter = "Muscle Group";
 
-   
+
     //Effect hook to load the data only once
     useEffect(() => {
 
-         //Array to store the incoming data 
-         const exList: any[]= [];
+        //Array to store the incoming data 
+        const exList: any[] = [];
 
-         firestore.collection("Bodyweight exercises")
+        firestore.collection("Bodyweight exercises")
             .orderBy(`${filter}`, 'asc')
             .limit(10)
             .get()
@@ -50,7 +52,7 @@ const BodyExerciseList: React.FC = () => {
             .catch((error) => {
                 console.log("Error getting documents: ", error);
             });
-    
+
     }, [])
 
 
@@ -63,7 +65,7 @@ const BodyExerciseList: React.FC = () => {
             "Muscle Group": newMuscleGroup,
             Difficulty: newDifficulty
         })
-        console.log("Exercise added")
+        //console.log("Exercise added")
     }
 
 
@@ -83,7 +85,7 @@ const BodyExerciseList: React.FC = () => {
             <IonContent>
                 <IonList>
                     {exercise.map((el => (
-                        <IonItem key ={el.id}>
+                        <IonItem key={el.id}>
                             <IonLabel>{el.Name}</IonLabel>
                             {el.Difficulty}
                         </IonItem>
@@ -106,6 +108,7 @@ const BodyExerciseList: React.FC = () => {
                         <IonButton fill="solid" color="success" size="small" onClick={() => {
                             addExercise()
                             setShowModal(false)
+                            setShowToast(true)
                             //TODO  functie om de lijst te refreshen
                         }}>Add exercise</IonButton>
 
@@ -131,6 +134,13 @@ const BodyExerciseList: React.FC = () => {
                     </IonItem>
                 </IonContent>
             </IonModal>
+
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message="The exercise has been added."
+                duration={500}
+            />
 
         </IonPage>
     )

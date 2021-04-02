@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package be.kantkevin.fitquest;
 
 import android.os.Bundle;
 

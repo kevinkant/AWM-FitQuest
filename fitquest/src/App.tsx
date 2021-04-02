@@ -44,6 +44,7 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
 import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
+import ExLog from './pages/Workouts/Strength/ExLog';
 
 
 const App: React.FC = () => (
@@ -93,6 +94,10 @@ const App: React.FC = () => (
 
             <Route exact path="/Exerciselist">
               <ExerciseList />
+            </Route>
+
+            <Route exact path="/Exlog">
+              <ExLog />
             </Route>
 
             <Route exact path="/Routines">
