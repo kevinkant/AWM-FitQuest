@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast } from '@ionic/react';
 import { firestore, auth } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
@@ -12,6 +12,8 @@ const ExerciseList: React.FC = () => {
 
     //Modal is used to add a new exercise to the user's database
     const [showModal, setShowModal] = useState(false);
+    //Toast to confirm exercise has been added to the database
+    const [showToast, setShowToast] = useState(false);
 
     //State for the exercise list
     const [exercise, setExercise] = useState<Array<any>>([]);
@@ -20,12 +22,12 @@ const ExerciseList: React.FC = () => {
     const [name, setName] = useState<string>();
     const [muscleGroup, setMuscleGroup] = useState<string>();
     const [material, setMaterial] = useState<string>();
-    
+
 
     //TODO use filter to query on muscle group
     const filter = "Muscle Group";
 
-   
+
 
     //Effect hook to load the data only once
     useEffect(() => {
@@ -33,31 +35,29 @@ const ExerciseList: React.FC = () => {
         //Array to store the incoming data 
         const exList: any[] = [];
 
-             firestore.collection("Strength exercises")
-                .orderBy(`${filter}`, 'asc')
-                .limit(5)
-                .get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        //console.log(doc.id, " => ", data);
-                        let data = doc.data()
+        firestore.collection("Strength exercises")
+            .orderBy(`${filter}`, 'asc')
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    //console.log(doc.id, " => ", data);
+                    let data = doc.data()
 
-                        //Push the data to the array together with
-                        //document id to function as a key for the list
-                        //rest of the data is spread
-                        exList.push({ id: doc.id, ...data })
-                         
-                    });
-                    setExercise(exList)  
-                })
-                .catch((error) => {
-                    console.log("Error getting documents: ", error);
+                    //Push the data to the array together with
+                    //document id to function as a key for the list, rest of the data is spread
+                    exList.push({ id: doc.id, ...data })
+
                 });
-        
+                setExercise(exList)
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
 
     }, [])
 
-    
+
 
     /**
      * This function saves a new exercise to the User's personal database
@@ -88,7 +88,7 @@ const ExerciseList: React.FC = () => {
             <IonContent>
                 <IonList>
                     {exercise.map((el => (
-                        <IonItem key={el.id}>
+                        <IonItem key={el.id} href="/Exlog">
                             <IonLabel>{el.Name}</IonLabel>
                             {el["Muscle Group"]}
                         </IonItem>
@@ -110,6 +110,7 @@ const ExerciseList: React.FC = () => {
                         <IonButton fill="solid" color="success" size="small" onClick={() => {
                             addExercise()
                             setShowModal(false)
+                            setShowToast(true)
                         }}>Add exercise</IonButton>
 
                     </IonButtons>
@@ -135,10 +136,19 @@ const ExerciseList: React.FC = () => {
                 </IonContent>
             </IonModal>
 
+            <IonToast
+                isOpen={showToast}
+                onDidDismiss={() => setShowToast(false)}
+                message="The exercise has been added."
+                duration={500}
+            />
+
+        
 
 
 
-        </IonPage>
+
+        </IonPage >
     )
 };
 
