@@ -88,7 +88,10 @@ const ExerciseList: React.FC = (props) => {
     const [sets, setSets] = useState<Array<any>>([]);
 
     /**
-     * This updates the state of the workout
+     * This updates the set array state of the workout
+     * 
+     * newSet is an object which has 2 keys: repetitions and Weight. When the user adds a set, it's added to completedSets, with the rest of the newSet spread into
+     * completedSets.
      */
     const addSet = () => {
         const newSet = {
@@ -97,18 +100,20 @@ const ExerciseList: React.FC = (props) => {
             Weight: weight
         }
 
-        const newSets = [...sets, newSet]
+        const completedSets = [...sets, newSet]
 
-        setSets(newSets)
+        setSets(completedSets)
     };
 
 
     /**
-    * This function saves a new exercise to the User's personal database
+    * This function saves a new workout to the users personal database
+    * 
+    * It is added to the database with the selected exercise, an array which contains the repetitions and weight and the date the exercise was performed
     */
     const saveWorkout = () => {
         try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Workout History").add({
+            return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
                 Name: exName,
                 Workout: sets,
                 Time: date.toDateString()

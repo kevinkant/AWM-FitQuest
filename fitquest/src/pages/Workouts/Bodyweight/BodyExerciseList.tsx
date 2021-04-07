@@ -2,6 +2,7 @@ import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, 
 import firebase, { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
+import './BodyWeightList.css'
 
 
 
@@ -40,6 +41,8 @@ const BodyExerciseList: React.FC = () => {
 
         //Array to store the incoming data 
         const exList: any[] = [];
+
+        
 
         firestore.collection("Bodyweight exercises")
             .orderBy(`${filter}`, 'asc')
@@ -80,31 +83,36 @@ const BodyExerciseList: React.FC = () => {
 
     //These state variables are used to add reps and weights and use those 2 variables to store them into the sets array with the addSet() method below
     const [reps, setReps] = useState<number>();
-    const [weight, setWeight] = useState<number>();
+    //const [weight, setWeight] = useState<number>();
     const [sets, setSets] = useState<Array<any>>([]);
 
     /**
-     * This updates the state of the workout
+     * This updates the set array state of the workout
+     * 
+     * newSet is an object which has 1 keys: repetitions. When the user adds a set, it's added to completedSets, with the rest of the newSet spread into
+     * completedSets.
      */
     const addSet = () => {
         const newSet = {
 
             Repetitions: reps,
-            Weight: weight
+            //Weight: weight
         }
 
-        const newSets = [...sets, newSet]
+        const completedSets = [...sets, newSet]
 
-        setSets(newSets)
+        setSets(completedSets)
     };
 
 
     /**
-    * This function saves a new exercise to the User's personal database
+    * This function saves a new bodyweight workout to the users personal database
+    * 
+    * It is added to the database with the selected exercise, an array which contains the repetitions and the date the exercise was performed
     */
     const saveWorkout = () => {
         try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Workout History").add({
+            return (firebase.firestore().collection("Users").doc(uid).collection("Bodyweight Workout History").add({
                 Name: exName,
                 Workout: sets,
                 Time: date.toDateString()
@@ -187,9 +195,9 @@ const BodyExerciseList: React.FC = () => {
             </IonModal>
 
             {/**
-             * This modal show a new screen to add completed sets (with repetitions and weight) 
+             * This modal show a new screen to add completed sets (with amount of repetitions)
              * */}
-            <IonModal isOpen={showModalSets} >
+            <IonModal backdropDismiss={false} cssClass='my-custom-class' isOpen={showModalSets} >
 
                 <IonToolbar>
                     <IonButtons slot="start">
@@ -208,16 +216,15 @@ const BodyExerciseList: React.FC = () => {
 
 
                 <IonContent>
+
                     <IonItem>
                         <IonInput value={reps} placeholder="Repetitions" onIonChange={e => setReps(parseInt(e.detail.value!))}></IonInput>
                     </IonItem>
 
-                    <IonItem>
-                        <IonInput value={weight} placeholder="Weight (kg)" onIonChange={e => setWeight(parseInt(e.detail.value!))}></IonInput>
-                    </IonItem>
+                    <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
                 </IonContent>
 
-                <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
+                
             </IonModal>
 
 
