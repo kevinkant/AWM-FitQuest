@@ -10,6 +10,8 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline, informationOutline } from 'ionicons/icons';
+
+//Pages imports
 import Login from './pages/Login screen/Login'
 import Home from './pages/Tabs/Home';
 import Workouts from './pages/Tabs/Workouts';
@@ -22,6 +24,9 @@ import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
 import Cardio from './pages/Workouts/Hiit/Hiit'
 import ExerciseList from './pages/Workouts/Strength/ExerciseList';
 import Routines from './pages/Workouts/Strength/Routines';
+import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
+import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
+
 
 
 /* Core CSS required for Ionic components to work properly */
@@ -42,9 +47,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
-import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
-import ExLog from './pages/Workouts/Strength/ExLog';
+
 
 
 const App: React.FC = () => (
@@ -96,9 +99,7 @@ const App: React.FC = () => (
               <ExerciseList />
             </Route>
 
-            <Route exact path="/Exlog">
-              <ExLog />
-            </Route>
+            
 
             <Route exact path="/Routines">
               <Routines />
