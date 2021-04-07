@@ -8,6 +8,8 @@ const DietTracking: React.FC = () => {
 
     let uid = firebase.auth().currentUser?.uid;
 
+    
+    let date = new Date();
     const [food, setFood] = useState<string>();
     const [calories, setCalories] = useState<Number>();
     
@@ -19,7 +21,7 @@ const DietTracking: React.FC = () => {
         firestore.collection("Users").doc(uid).collection("Diet Tracking").add({
             Food: food ,
             Calories: calories,
-            Timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            Timestamp: date.toDateString()
         })
         
     }

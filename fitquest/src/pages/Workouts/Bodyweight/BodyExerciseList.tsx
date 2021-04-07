@@ -1,5 +1,5 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon, IonInput, IonModal, IonToast } from '@ionic/react';
-import { auth, firestore } from '../../../FirebaseConfig';
+import firebase, { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
 
@@ -7,11 +7,18 @@ import { add } from 'ionicons/icons';
 
 const BodyExerciseList: React.FC = () => {
 
+    //UID of the current user
     let uid = auth.currentUser?.uid;
 
+    let date = new Date();
 
-    //Modal is used to add a new exercise to the user's database
-    const [showModal, setShowModal] = useState(false);
+
+    //This modal is used to add a new exercise to the user's database
+    const [showModalAdd, setShowModalAdd] = useState(false);
+
+    //This modal is used to save a workout to the user's database
+    const [showModalSets, setShowModalSets] = useState(false);
+
     //Toast to confirm exercise has been added to the database
     const [showToast, setShowToast] = useState(false);
 
@@ -28,7 +35,7 @@ const BodyExerciseList: React.FC = () => {
     const filter = "Muscle Group";
 
 
-    //Effect hook to load the data only once
+    //Effect hook to load the data from the firestore collection
     useEffect(() => {
 
         //Array to store the incoming data 
@@ -68,6 +75,47 @@ const BodyExerciseList: React.FC = () => {
         //console.log("Exercise added")
     }
 
+    //State variable used to get the exercise name from the clicked element in the list
+    const [exName, setExname] = useState<string>();
+
+    //These state variables are used to add reps and weights and use those 2 variables to store them into the sets array with the addSet() method below
+    const [reps, setReps] = useState<number>();
+    const [weight, setWeight] = useState<number>();
+    const [sets, setSets] = useState<Array<any>>([]);
+
+    /**
+     * This updates the state of the workout
+     */
+    const addSet = () => {
+        const newSet = {
+
+            Repetitions: reps,
+            Weight: weight
+        }
+
+        const newSets = [...sets, newSet]
+
+        setSets(newSets)
+    };
+
+
+    /**
+    * This function saves a new exercise to the User's personal database
+    */
+    const saveWorkout = () => {
+        try {
+            return (firebase.firestore().collection("Users").doc(uid).collection("Workout History").add({
+                Name: exName,
+                Workout: sets,
+                Time: date.toDateString()
+            }));
+        } catch (error) {
+            console.error('Error writing new message to database', error);
+        }
+
+
+    }
+
 
 
     return (
@@ -85,7 +133,10 @@ const BodyExerciseList: React.FC = () => {
             <IonContent>
                 <IonList>
                     {exercise.map((el => (
-                        <IonItem key={el.id}>
+                        <IonItem key={el.id} onClick={() => {
+                            setExname(el.Name)
+                            setShowModalSets(true)
+                        }}>
                             <IonLabel>{el.Name}</IonLabel>
                             {el.Difficulty}
                         </IonItem>
@@ -96,18 +147,18 @@ const BodyExerciseList: React.FC = () => {
 
 
             <IonFab vertical="bottom" horizontal="end" slot="fixed">
-                <IonFabButton onClick={() => setShowModal(true)}>
+                <IonFabButton onClick={() => setShowModalAdd(true)}>
                     <IonIcon icon={add} />
                 </IonFabButton>
             </IonFab>
 
-            <IonModal isOpen={showModal} >
+            <IonModal isOpen={showModalAdd} >
 
                 <IonToolbar>
                     <IonButtons slot="start">
                         <IonButton fill="solid" color="success" size="small" onClick={() => {
                             addExercise()
-                            setShowModal(false)
+                            setShowModalAdd(false)
                             setShowToast(true)
                             //TODO  functie om de lijst te refreshen
                         }}>Add exercise</IonButton>
@@ -115,7 +166,7 @@ const BodyExerciseList: React.FC = () => {
                     </IonButtons>
 
                     <IonButtons slot="end">
-                        <IonButton fill="solid" color="danger" onClick={() => setShowModal(false)}>Go back</IonButton>
+                        <IonButton fill="solid" color="danger" onClick={() => setShowModalAdd(false)}>Go back</IonButton>
                     </IonButtons>
                 </IonToolbar>
 
@@ -135,6 +186,44 @@ const BodyExerciseList: React.FC = () => {
                 </IonContent>
             </IonModal>
 
+            {/**
+             * This modal show a new screen to add completed sets (with repetitions and weight) 
+             * */}
+            <IonModal isOpen={showModalSets} >
+
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonButton fill="solid" color="success" size="small" onClick={() => {
+                            saveWorkout()
+                            setShowModalSets(false)
+                            //setShowToast(true)
+                        }}>Complete Workout</IonButton>
+
+                    </IonButtons>
+
+                    <IonButtons slot="end">
+                        <IonButton fill="solid" color="danger" onClick={() => setShowModalSets(false)}>Go back</IonButton>
+                    </IonButtons>
+                </IonToolbar>
+
+
+                <IonContent>
+                    <IonItem>
+                        <IonInput value={reps} placeholder="Repetitions" onIonChange={e => setReps(parseInt(e.detail.value!))}></IonInput>
+                    </IonItem>
+
+                    <IonItem>
+                        <IonInput value={weight} placeholder="Weight (kg)" onIonChange={e => setWeight(parseInt(e.detail.value!))}></IonInput>
+                    </IonItem>
+                </IonContent>
+
+                <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
+            </IonModal>
+
+
+            {/**
+              * This toast confirms that the exercise has been added
+              */}
             <IonToast
                 isOpen={showToast}
                 onDidDismiss={() => setShowToast(false)}
