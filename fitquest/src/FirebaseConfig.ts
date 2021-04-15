@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import 'firebase/firestore';
+import {cfaSignIn, cfaSignOut} from 'capacitor-firebase-auth';
 
 const config = {
     apiKey: "AIzaSyD2bqv3v5wGkX4zmOxUtEOQaA3f09ZhmX4",
@@ -39,16 +40,19 @@ export const provider = new firebase.auth.GoogleAuthProvider();
 
 
 export const signInWithGoogle = () => {
-    auth.signInWithPopup(provider)
-    .then(
+    cfaSignIn("google.com").subscribe((user) =>
+      console.log(user.displayName)
+    );
+    // auth.signInWithPopup(provider)
+    // .then(
         
-        firestore.collection("Users").doc(auth.currentUser?.uid).set
-    )
+    //     firestore.collection("Users").doc(auth.currentUser?.uid).set
+    // )
 }
 
 
 export const signOut = () => {
-    firebase.auth().signOut()
+    cfaSignOut().subscribe()
     console.log("User logged out")
 };
 

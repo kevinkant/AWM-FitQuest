@@ -76,7 +76,7 @@ const ExerciseList: React.FC = (props) => {
             Material: material
         })
         console.log("Exercise added")
-    }
+    };
 
 
     //State variable used to get the exercise name from the clicked element in the list
@@ -98,7 +98,7 @@ const ExerciseList: React.FC = (props) => {
 
             Repetitions: reps,
             Weight: weight
-        }
+        };
 
         const completedSets = [...sets, newSet]
 
@@ -120,10 +120,8 @@ const ExerciseList: React.FC = (props) => {
             }));
         } catch (error) {
             console.error('Error writing new message to database', error);
-        }
-
-
-    }
+        };
+    };
 
 
 
