@@ -13,7 +13,7 @@ const Fitcards: React.FC = () => {
 
         <IonContent>
 
-            <IonCard href="/Strength">
+            <IonCard routerLink="/Strength">
                 <img alt="Strength training" src={strength}></img>
                 <IonCardHeader>
                     <IonCardTitle>Strength Training</IonCardTitle>
@@ -25,7 +25,7 @@ const Fitcards: React.FC = () => {
                 </IonCardContent>
             </IonCard>
 
-            <IonCard href="/Bodyweight">
+            <IonCard routerLink="/Bodyweight">
                 <img alt="Body" src={bwe}></img>
                 <IonCardHeader>
                     <IonCardTitle>Bodyweight Training</IonCardTitle>
@@ -37,7 +37,7 @@ const Fitcards: React.FC = () => {
                 </IonCardContent>
             </IonCard>
 
-            <IonCard href="/Cardio">
+            <IonCard routerLink="/Cardio">
                 <img alt="People doing cardio" src={hiit}></img>
                 <IonCardHeader>
                     <IonCardTitle>HIIT Training</IonCardTitle>

@@ -140,6 +140,10 @@ const ExerciseList: React.FC = (props) => {
                 </IonToolbar>
             </IonHeader>
 
+
+            {/**
+             * Print exercises to list
+             */}
             <IonContent>
                 <IonList>
                     {exercise.map((el => (

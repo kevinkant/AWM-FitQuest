@@ -2,9 +2,8 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput
 import { useState } from 'react';
 import './Login.css';
 import { auth, signInWithGoogle, returnID, provider, signOut } from '../../FirebaseConfig'
-import firebase from 'firebase';
 import { UserContext } from '../providers/UserProvider'
-import {cfaSignIn, cfaSignInGoogle} from 'capacitor-firebase-auth';
+
 
 
 const Login: React.FC = () => {
@@ -49,8 +48,8 @@ const Login: React.FC = () => {
 
           
           <IonButton onClick={signInWithGoogle}>Sign-in with google</IonButton>
-          <IonButton onClick={signOut}>Sign out with google</IonButton>
-          <IonButton>Register</IonButton>
+          
+          <IonButton routerLink="/Register">Register</IonButton>
 
           
 

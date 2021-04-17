@@ -138,6 +138,11 @@ const BodyExerciseList: React.FC = () => {
             </IonToolbar>
             </IonHeader>
 
+
+
+             {/**
+              * * Print array to list
+             */}
             <IonContent>
                 <IonList>
                     {exercise.map((el => (

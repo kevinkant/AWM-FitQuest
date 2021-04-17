@@ -19,7 +19,7 @@ import firebase from '../../FirebaseConfig';
             </IonAvatar>
             {/* <IonText class="ion-text-center"  >Welcome user</IonText> */}
 
-            <IonButton class="ion-text-center" color="primary" href='/EditProfile' >Edit your profile</IonButton>
+            <IonButton class="ion-text-center" color="primary" routerLink='/EditProfile' >Edit your profile</IonButton>
 
         </IonContent>
     );

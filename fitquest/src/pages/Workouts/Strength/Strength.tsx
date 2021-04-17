@@ -30,7 +30,7 @@ const Strength: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Strength Exercise List</IonLabel>
-                        <IonButton fill="outline" slot="end" href="/Exerciselist">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/Exerciselist">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>
@@ -45,7 +45,7 @@ const Strength: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Workout routines</IonLabel>
-                        <IonButton fill="outline" slot="end" href="/Routines">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/Routines">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>
