@@ -1,19 +1,20 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel } from '@ionic/react';
 import { useState } from 'react';
 import './Login.css';
-import { auth, signInWithGoogle, returnID } from '../../FirebaseConfig'
-import firebase from 'firebase';
-import { UserContext } from '../providers/UserProvider'
+import {signInWithGoogle, signInWithEmail } from '../../FirebaseConfig'
+
+
 
 
 const Login: React.FC = () => {
 
-  const [userName, setUserName] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [userName, setUserName] = useState<any>();
+  const [password, setPassword] = useState<any>();
 
-  // const currentUser = firebase.auth().currentUser?.uid
-
-  // console.log(currentUser)
+ 
+const login = async () => {
+  await signInWithEmail(userName, password)
+}
   
   
   //TODO: Email en password setup
@@ -43,11 +44,12 @@ const Login: React.FC = () => {
             <IonInput type="password"  value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
 
-          <IonButton>Login</IonButton>
+          <IonButton onClick={() => signInWithEmail}>Login</IonButton>
 
           
           <IonButton onClick={signInWithGoogle}>Sign-in with google</IonButton>
-          <IonButton>Register</IonButton>
+          
+          <IonButton routerLink="/Register">Register</IonButton>
 
           
 

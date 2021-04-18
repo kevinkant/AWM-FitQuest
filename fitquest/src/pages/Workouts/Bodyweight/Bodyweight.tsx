@@ -25,7 +25,7 @@ const Bodyweight: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Bodyweight Exercise List</IonLabel>
-                        <IonButton fill="outline" slot="end" href="/Bodyweightexerciselist">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/Bodyweightexerciselist">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>
@@ -40,7 +40,7 @@ const Bodyweight: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Workout routines</IonLabel>
-                        <IonButton fill="outline" slot="end" href="/Bodyroutines">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/Bodyroutines">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>

@@ -19,11 +19,7 @@ export const EditProfile: React.FC = () => {
     const [weight, setWeight] = useState<number>();
 
     
-
-    console.log(auth.currentUser?.displayName)
-    
-    //console.log(user)
-
+    console.log(auth.currentUser?.email)
 
     //Get the uid from the logged-in user
     //TODO implement this with context or redux
@@ -42,7 +38,7 @@ export const EditProfile: React.FC = () => {
                 Gender: gender,
                 Height: height,
                 Weight: weight,
-            }));
+            }, {merge:true}));
         } catch (error) {
             console.error('Error writing new message to database', error);
         }
@@ -102,11 +98,11 @@ export const EditProfile: React.FC = () => {
 
 
                 {/*Save the stats and return to the user's profile */}
-                <IonButton onClick={() => saveStats()} href="/Profile">Save</IonButton>
+                <IonButton onClick={() => saveStats()} routerLink="/Profile">Save</IonButton>
 
 
                 {/*Sign out of the app and return to the Login screen*/}
-                <IonButton onClick={() => signOut()}  href="/Login">Save</IonButton>
+                <IonButton onClick={signOut} routerLink="/Login">Sign out</IonButton>
 
 
             </IonContent>

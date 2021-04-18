@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast, IonText, IonTextarea } from '@ionic/react';
 import firebase, { firestore, auth } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
@@ -76,7 +76,7 @@ const ExerciseList: React.FC = (props) => {
             Material: material
         })
         console.log("Exercise added")
-    }
+    };
 
 
     //State variable used to get the exercise name from the clicked element in the list
@@ -87,38 +87,44 @@ const ExerciseList: React.FC = (props) => {
     const [weight, setWeight] = useState<number>();
     const [sets, setSets] = useState<Array<any>>([]);
 
+    const [count, setCount] = useState<number>(1);
+
     /**
-     * This updates the state of the workout
+     * This updates the set array state of the workout
+     * 
+     * newSet is an object which has 2 keys: repetitions and Weight. When the user adds a set, it's added to completedSets, with the rest of the newSet spread into
+     * completedSets.
      */
     const addSet = () => {
         const newSet = {
-
+            Sets: `Set ${count}`,
             Repetitions: reps,
             Weight: weight
-        }
+        };
 
-        const newSets = [...sets, newSet]
+        const completedSets = [...sets, newSet]
 
-        setSets(newSets)
+        setSets(completedSets)
+        setCount(count + 1)
     };
 
 
     /**
-    * This function saves a new exercise to the User's personal database
+    * This function saves a new workout to the users personal database
+    * 
+    * It is added to the database with the selected exercise, an array which contains the repetitions and weight and the date the exercise was performed
     */
     const saveWorkout = () => {
         try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Workout History").add({
+            return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
                 Name: exName,
                 Workout: sets,
                 Time: date.toDateString()
             }));
         } catch (error) {
             console.error('Error writing new message to database', error);
-        }
-
-
-    }
+        };
+    };
 
 
 
@@ -137,6 +143,10 @@ const ExerciseList: React.FC = (props) => {
                 </IonToolbar>
             </IonHeader>
 
+
+            {/**
+             * Print exercises to list
+             */}
             <IonContent>
                 <IonList>
                     {exercise.map((el => (
@@ -178,15 +188,27 @@ const ExerciseList: React.FC = (props) => {
 
                 <IonContent>
                     <IonItem>
-                        <IonInput value={name} placeholder="Exercise Name" onIonChange={e => setName(e.detail.value!)}></IonInput>
+                        <IonInput
+                            value={name}
+                            placeholder="Exercise Name"
+                            onIonChange={e => setName(e.detail.value!)}>
+                        </IonInput>
                     </IonItem>
 
                     <IonItem>
-                        <IonInput value={muscleGroup} placeholder="Muscle Group" onIonChange={e => setMuscleGroup(e.detail.value!)}></IonInput>
+                        <IonInput
+                            value={muscleGroup}
+                            placeholder="Muscle Group"
+                            onIonChange={e => setMuscleGroup(e.detail.value!)}>
+                        </IonInput>
                     </IonItem>
 
                     <IonItem>
-                        <IonInput value={material} placeholder="Material" onIonChange={e => setMaterial(e.detail.value!)}></IonInput>
+                        <IonInput
+                            value={material}
+                            placeholder="Material"
+                            onIonChange={e => setMaterial(e.detail.value!)}>
+                        </IonInput>
                     </IonItem>
                 </IonContent>
             </IonModal>
@@ -207,22 +229,46 @@ const ExerciseList: React.FC = (props) => {
                     </IonButtons>
 
                     <IonButtons slot="end">
-                        <IonButton fill="solid" color="danger" onClick={() => setShowModalSets(false)}>Go back</IonButton>
+                        <IonButton fill="solid" color="danger" onClick={() => {
+                            //Empty Sets array and clear reps
+                            setSets([])
+                            setReps(parseInt(""))
+                            setWeight(parseInt(""))
+                            setCount(1)
+                            setShowModalSets(false)
+                        }}>Go back</IonButton>
                     </IonButtons>
                 </IonToolbar>
 
 
                 <IonContent>
                     <IonItem>
-                        <IonInput value={reps} placeholder="Repetitions" onIonChange={e => setReps(parseInt(e.detail.value!))}></IonInput>
+                        <IonInput
+                            value={reps}
+                            required={true}
+                            type="number"
+                            placeholder="Repetitions"
+                            onIonChange={e => setReps(parseInt(e.detail.value!))}>
+                        </IonInput>
                     </IonItem>
 
                     <IonItem>
-                        <IonInput value={weight} placeholder="Weight (kg)" onIonChange={e => setWeight(parseInt(e.detail.value!))}></IonInput>
+                        <IonInput
+                            value={weight}
+                            required={true}
+                            type="number"
+                            placeholder="Weight (kg)"
+                            onIonChange={e => setWeight(parseInt(e.detail.value!))}>
+                        </IonInput>
                     </IonItem>
-                </IonContent>
 
-                <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
+                    <IonText>
+                        {sets.map((set) => (
+                            <p key={set.Sets}>{set.Sets}: {set.Repetitions} reps - {set.Weight} kg</p>
+                        ))}
+                    </IonText>
+                    <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
+                </IonContent>
             </IonModal>
 
             {/**

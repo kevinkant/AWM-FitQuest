@@ -26,6 +26,7 @@ import ExerciseList from './pages/Workouts/Strength/ExerciseList';
 import Routines from './pages/Workouts/Strength/Routines';
 import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
 import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
+import Register from './pages/Login screen/Register';
 
 
 
@@ -60,6 +61,10 @@ const App: React.FC = () => (
 
             <Route exact path="/Login">
               <Login />
+            </Route>
+
+            <Route exact path="/Register">
+              <Register />
             </Route>
 
             <Route exact path="/Home">
@@ -137,10 +142,10 @@ const App: React.FC = () => (
               <IonLabel>Home</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="Diet" href="/Diet">
+            {/* <IonTabButton tab="Diet" href="/Diet">
               <IonIcon icon={restaurantOutline} />
               <IonLabel>Diet</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
 
             <IonTabButton tab="Workouts" href="/Workouts">
               <IonIcon icon={barbell} />

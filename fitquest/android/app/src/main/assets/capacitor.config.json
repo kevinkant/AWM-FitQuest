@@ -6,9 +6,25 @@
   "webDir": "build",
   "windowsAndroidStudioPath": "C:\\Users\\kevin\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\201.7199119\\bin\\studio64.exe",
   "plugins": {
+
     "SplashScreen": {
       "launchShowDuration": 0
+    },
+
+    "CapacitorFirebaseAuth": {
+      "providers": ["google.com"],
+      "languageCode": "en",
+      "nativeAuth": true,
+      "properties": {
+        "google": {
+            
+        }
+      },   
+      "permissions": {
+           "google": ["profile", "email", "https://www.googleapis.com/auth/drive"]
+       }
     }
   },
+  
   "cordova": {}
 }

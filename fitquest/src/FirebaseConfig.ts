@@ -1,6 +1,9 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import 'firebase/firestore';
+import { cfaSignInGoogle, cfaSignOut } from 'capacitor-firebase-auth';
+
+
 
 const config = {
     apiKey: "AIzaSyD2bqv3v5wGkX4zmOxUtEOQaA3f09ZhmX4",
@@ -15,32 +18,63 @@ const config = {
 
 firebase.initializeApp(config);
 
-// firebase.auth();
 
+//Enable offline persistence of the databases
+firebase.firestore().enablePersistence()
+    .catch((err) => {
+        if (err.code === 'failed-precondition') {
+        } else if (err.code === 'unimplemented') {
+            console.log("Current browser doesn't support offline data")
+        }
+    });
+
+
+//Function aliases
 export const firestore = firebase.firestore();
-
-
 export const auth = firebase.auth();
-
 export const provider = new firebase.auth.GoogleAuthProvider();
 
 
+/**
+ * This function makes use of the capacitor-firebase-auth plugin to handle authentication on the native layer
+ * https://github.com/baumblatt/capacitor-firebase-auth
+ */
 export const signInWithGoogle = () => {
-    auth.signInWithPopup(provider)
-    .then(
-        
-        firestore.collection("Users").doc(auth.currentUser?.uid).set
-    )
+    cfaSignInGoogle().subscribe((user) =>
+        //This is the initial docu that is automatically added to the collection when the user signs in with google. If the doc doesn't exists (aka user logs in for the first time)
+        //a new docuement with the user's uid as doc ID is created, with 2 initial values(name and email)
+        firestore.collection("Users").doc(user?.uid).set({
+            //   Name: user.displayName,
+            //   Email: user.email
+        }, { merge: true }) //Set to merge so doc doesn't get overwritten
+
+        // console.log(`name: ${user.displayName} and email: ${user.email}`)
+    );
 }
 
-
+/**
+ * This function makes use of the capacitor-firebase-auth plugin to handle authentication on the native layer
+ * https://github.com/baumblatt/capacitor-firebase-auth
+ */
 export const signOut = () => {
-    firebase.auth().signOut()
+    cfaSignOut().subscribe()
     console.log("User logged out")
 };
 
+export const signInWithEmail = async (username: string, password: string) => {
 
-export const returnID = () => firebase.auth().currentUser;
+    try {
+        const login = await auth.signInWithEmailAndPassword(username, password)
+        console.log("user is logged in")
+        console.log(login)
+        return true
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+export const returnID = () => firebase.auth().currentUser?.uid;
 
 
 export default firebase;
