@@ -19,11 +19,7 @@ export const EditProfile: React.FC = () => {
     const [weight, setWeight] = useState<number>();
 
     
-
-    console.log(auth.currentUser?.displayName)
-    
-    //console.log(user)
-
+    console.log(auth.currentUser?.email)
 
     //Get the uid from the logged-in user
     //TODO implement this with context or redux

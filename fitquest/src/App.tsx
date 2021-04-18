@@ -142,10 +142,10 @@ const App: React.FC = () => (
               <IonLabel>Home</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="Diet" href="/Diet">
+            {/* <IonTabButton tab="Diet" href="/Diet">
               <IonIcon icon={restaurantOutline} />
               <IonLabel>Diet</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
 
             <IonTabButton tab="Workouts" href="/Workouts">
               <IonIcon icon={barbell} />
