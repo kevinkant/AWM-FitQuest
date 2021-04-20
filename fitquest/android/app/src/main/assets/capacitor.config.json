@@ -21,7 +21,7 @@
         }
       },   
       "permissions": {
-           "google": ["profile", "email", "https://www.googleapis.com/auth/drive"]
+           "google": ["email"]
        }
     }
   },

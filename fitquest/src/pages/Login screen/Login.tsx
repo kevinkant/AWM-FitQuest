@@ -35,7 +35,7 @@ const login = async () => {
         </IonHeader>
 
         <IonItem>
-          <IonLabel position="floating">Username</IonLabel>
+          <IonLabel position="floating">Email</IonLabel>
             <IonInput value={userName}  onIonChange={e => setUserName(e.detail.value!)}></IonInput>
           </IonItem>
 
@@ -44,7 +44,7 @@ const login = async () => {
             <IonInput type="password"  value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
           </IonItem>
 
-          <IonButton onClick={() => signInWithEmail}>Login</IonButton>
+          <IonButton onClick={login}>Login</IonButton>
 
           
           <IonButton onClick={signInWithGoogle}>Sign-in with google</IonButton>
