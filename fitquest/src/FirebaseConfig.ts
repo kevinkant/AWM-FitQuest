@@ -63,15 +63,22 @@ export const signOut = () => {
 
 export const signInWithEmail = async (username: string, password: string) => {
 
-    try {
+    try 
+    {
         const login = await auth.signInWithEmailAndPassword(username, password)
         console.log("user is logged in")
         console.log(login)
         return true
-    } catch (error) {
+    } 
+    catch (error) 
+    {
         console.log(error)
         return false
     }
+}
+
+export const signUpWithEmail = async (username: string, password: string) => {
+    
 }
 
 export const returnID = () => firebase.auth().currentUser?.uid;

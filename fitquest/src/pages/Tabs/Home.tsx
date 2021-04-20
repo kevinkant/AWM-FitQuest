@@ -1,28 +1,36 @@
 import {  IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Home.css';
+import firebase, { auth } from '../../FirebaseConfig'
+import { useEffect } from 'react';
 
 
 
 const Home: React.FC = () => {
+
+  let name = auth.currentUser?.displayName
+
+  
+
+
   return (
     <IonPage>
 
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Home</IonTitle>
+          <IonTitle>FitQuest</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
 
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Home</IonTitle>
+            <IonTitle size="large">FitQuest</IonTitle>
           </IonToolbar>
         </IonHeader>
 
         
 
-        <IonText>Hello wold</IonText>
+        <IonText >Welcome {name}</IonText>
 
       </IonContent>
     </IonPage>

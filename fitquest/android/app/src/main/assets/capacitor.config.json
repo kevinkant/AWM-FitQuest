@@ -8,7 +8,12 @@
   "plugins": {
 
     "SplashScreen": {
-      "launchShowDuration": 0
+      "launchShowDuration": 1550,
+      "launchAutoHide": true,
+      "androidScaleType": "CENTER_CROP",
+      "androidSplashResourceName": "splash",
+      "splashFullScreen": false,
+      "splashImmersive": false
     },
 
     "CapacitorFirebaseAuth": {
@@ -21,7 +26,7 @@
         }
       },   
       "permissions": {
-           "google": ["profile", "email", "https://www.googleapis.com/auth/drive"]
+           "google": ["email"]
        }
     }
   },
