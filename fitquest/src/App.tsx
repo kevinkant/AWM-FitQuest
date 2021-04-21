@@ -9,7 +9,7 @@ import {
   IonTabs,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { barbell, restaurantOutline, homeOutline, personCircleOutline, starOutline, informationOutline } from 'ionicons/icons';
+import { barbell, homeOutline, personCircleOutline, starOutline, informationOutline } from 'ionicons/icons';
 
 //Pages imports
 import Login from './pages/Login screen/Login'
@@ -23,6 +23,8 @@ import Strength from './pages/Workouts/Strength/Strength'
 import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
 import Cardio from './pages/Workouts/Hiit/Hiit'
 import ExerciseList from './pages/Workouts/Strength/ExerciseList';
+import StrHistory from './pages/Workouts/Strength/StrHistory';
+import BweHistory from './pages/Workouts/Bodyweight/BweHistory';
 import Routines from './pages/Workouts/Strength/Routines';
 import BodyExerciseList from './pages/Workouts/Bodyweight/BodyExerciseList';
 import BodyRoutines from './pages/Workouts/Bodyweight/BodyRoutines';
@@ -48,6 +50,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+
 
 
 
@@ -98,6 +101,14 @@ const App: React.FC = () => (
 
             <Route exact path="/Strength">
               <Strength />
+            </Route>
+
+            <Route exact path="/StrHistory">
+              <StrHistory />
+            </Route>
+
+            <Route exact path="/BweHistory">
+              <BweHistory />
             </Route>
 
             <Route exact path="/Exerciselist">

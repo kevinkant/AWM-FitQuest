@@ -1,6 +1,6 @@
 import {  IonAvatar, IonContent, IonButton } from '@ionic/react';
-import React from 'react';
-import firebase from '../../FirebaseConfig';
+import React, { useEffect, useState } from 'react';
+import { auth } from '../../FirebaseConfig';
 
 
 
@@ -11,11 +11,20 @@ import firebase from '../../FirebaseConfig';
 
  const ProfileLayout: React.FC = () => {
 
+    const [profilePic, setProfilepic] = useState<any>();
+
+     
+     useEffect(() => {
+        setProfilepic(auth.currentUser?.photoURL)
+     }, [])
+
+  
+
     return (
         <IonContent>
 
-            <IonAvatar >
-                <img alt="Profile" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+            <IonAvatar  >
+                <img alt="Profile" src={`${profilePic}`} />
             </IonAvatar>
             {/* <IonText class="ion-text-center"  >Welcome user</IonText> */}
 
