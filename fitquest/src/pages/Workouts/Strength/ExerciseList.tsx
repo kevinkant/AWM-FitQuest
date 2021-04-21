@@ -1,4 +1,4 @@
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast, IonText, IonTextarea } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast, IonText } from '@ionic/react';
 import firebase, { firestore, auth } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
@@ -9,7 +9,7 @@ import { add } from 'ionicons/icons';
 const ExerciseList: React.FC = (props) => {
 
     let uid = auth.currentUser?.uid;
-    let date = new Date();
+    
 
 
 
@@ -119,7 +119,7 @@ const ExerciseList: React.FC = (props) => {
             return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
                 Name: exName,
                 Workout: sets,
-                Time: date.toDateString()
+                Time: firebase.firestore.Timestamp.now()
             }));
         } catch (error) {
             console.error('Error writing new message to database', error);
@@ -176,6 +176,7 @@ const ExerciseList: React.FC = (props) => {
                             addExercise()
                             setShowModalAdd(false)
                             setShowToast(true)
+                            //TODO  functie om de lijst te refreshen
                         }}>Add exercise</IonButton>
 
                     </IonButtons>
@@ -222,6 +223,10 @@ const ExerciseList: React.FC = (props) => {
                     <IonButtons slot="start">
                         <IonButton fill="solid" color="success" size="small" onClick={() => {
                             saveWorkout()
+                            setSets([])
+                            setReps(parseInt(""))
+                            setWeight(parseInt(""))
+                            setCount(1)
                             setShowModalSets(false)
                             //setShowToast(true)
                         }}>Complete Workout</IonButton>
@@ -261,13 +266,16 @@ const ExerciseList: React.FC = (props) => {
                             onIonChange={e => setWeight(parseInt(e.detail.value!))}>
                         </IonInput>
                     </IonItem>
-
+                    <IonButton onClick={() => { 
+                        setReps(parseInt(""))
+                        setWeight(parseInt(""))
+                        addSet() }}>Add Set</IonButton>
                     <IonText>
                         {sets.map((set) => (
                             <p key={set.Sets}>{set.Sets}: {set.Repetitions} reps - {set.Weight} kg</p>
                         ))}
                     </IonText>
-                    <IonButton onClick={() => { addSet() }}>Add Set</IonButton>
+                    
                 </IonContent>
             </IonModal>
 

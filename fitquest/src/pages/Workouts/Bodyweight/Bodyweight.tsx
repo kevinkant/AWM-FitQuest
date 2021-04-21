@@ -54,7 +54,7 @@ const Bodyweight: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Workout history</IonLabel>
-                        <IonButton fill="outline" slot="end">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/BweHistory">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>

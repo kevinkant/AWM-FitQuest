@@ -1,11 +1,13 @@
 import {  IonContent, IonHeader, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './Home.css';
-import firebase, { auth } from '../../FirebaseConfig'
-import { useEffect } from 'react';
+ import { auth } from '../../FirebaseConfig'
+// import { useEffect } from 'react';
 
 
 
 const Home: React.FC = () => {
+
+  
 
   let name = auth.currentUser?.displayName
 

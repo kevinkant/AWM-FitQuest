@@ -59,7 +59,7 @@ const Strength: React.FC = () => {
                     <IonItem>
                         <IonIcon icon={pin} slot="start" />
                         <IonLabel>Workout history</IonLabel>
-                        <IonButton fill="outline" slot="end">View</IonButton>
+                        <IonButton fill="outline" slot="end" routerLink="/StrHistory">View</IonButton>
                     </IonItem>
 
                     <IonCardContent>
