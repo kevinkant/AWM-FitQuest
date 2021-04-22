@@ -1,5 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel, IonBackButton, IonButtons } from '@ionic/react';
 import React, { useState } from 'react';
+import './Register.css';
+import fqReg from "../../images/fqRegister.png"
 import { useForm, Controller } from "react-hook-form";
 //import { auth, signInWithGoogle, returnID } from '../../FirebaseConfig'
 
@@ -30,30 +32,28 @@ const Register: React.FC = () => {
             </IonHeader>
 
 
-            <IonContent fullscreen>
+            <IonContent className="ion-padding"   fullscreen>
 
-                <IonHeader collapse="condense">
-                    <IonToolbar>
-                        <IonTitle size="large">Register</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-
-                <IonItem>
+               
+                
+                <IonItem className="user-details">
                     <IonLabel position="floating">Email</IonLabel>
                     <IonInput value={userName} onIonChange={e => setUserName(e.detail.value!)}></IonInput>
                 </IonItem>
 
-                <IonItem>
+                <IonItem className="user-details">
                     <IonLabel position="floating">Password</IonLabel>
                     <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
                 </IonItem>
 
-                <IonItem>
+                <IonItem className="user-details">
                     <IonLabel position="floating">Confirm Password</IonLabel>
                     <IonInput type="password" value={passwordCheck} onIonChange={e => setPasswordCheck(e.detail.value!)}></IonInput>
                 </IonItem>
 
                 {check() ? <p>PASSWORDS DO NOT MATCH</p> : <p>PASSWORDS  MATCH!</p> }
+
+                <IonButton expand="block" shape="round">Create your account!</IonButton>
 
             </IonContent>
         </IonPage>

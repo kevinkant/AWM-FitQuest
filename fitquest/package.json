@@ -66,5 +66,5 @@
   "devDependencies": {
     "@capacitor/cli": "2.4.6"
   },
-  "description": "An Ionic project"
+  "description": "FitQuest: start your new journey to become fit!"
 }

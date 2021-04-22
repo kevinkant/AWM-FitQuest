@@ -1,0 +1,13 @@
+.user-details {
+
+    margin: 20px;
+    border: 2px solid #ada9a8;
+    border-radius: 25px;
+    --highlight-color-focused: none;
+
+}
+
+.ion-margin {
+    --padding-top: 50px;
+}
+

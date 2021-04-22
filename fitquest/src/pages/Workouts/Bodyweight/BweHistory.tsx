@@ -54,6 +54,8 @@ const BweHistory: React.FC = () => {
         }
     }
 
+    
+
     /**
      * This array is used
      */
@@ -64,8 +66,7 @@ const BweHistory: React.FC = () => {
         };
     });
 
-
-
+  
 
     return (
         <IonPage>
@@ -75,40 +76,21 @@ const BweHistory: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/Bodyweight" />
                     </IonButtons>
-                Bodyweight Exercises list
+                Bodyweight Exercises History Log
             </IonToolbar>
             </IonHeader>
 
-            {/* <IonContent>
-        {exLog.map((el => (
-                <IonList>
-                <IonListHeader color="danger">{el.Time.toDate().toDateString()} </IonListHeader>
-                    
-                        <IonItem key={el.id} >
-                            <IonLabel>
-                                <IonText><b><u>{el.Name}</u></b></IonText>
-                                {el.Workout.map((el: any) => (
-                                    <h3>{el.Sets} - {el.Repetitions} reps</h3>
-                                ))}
-                                
-                            </IonLabel>
-                            
-                        </IonItem>
-                    
-                </IonList>
-                )))} */}
             {/* TODO Custom accordion? https://gist.github.com/aaronksaunders/f72c3ec11145af1ed23f4ee4d3c4dd43 */}
             <IonContent>
 
                 {workouts.map((exDate => (
                     <IonList>
-                        <IonListHeader color="danger">{exDate.date} </IonListHeader>
+                        <IonListHeader color="medium"><IonText color="dark">{exDate.date} </IonText></IonListHeader>
 
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
 
-
-                                <IonLabel key={exDetails.id}>
+                                <IonLabel>
                                     <IonText><b><u>{exDetails.Name}</u></b></IonText>
 
                                     {exDetails.Workout.map((el: any) => (
