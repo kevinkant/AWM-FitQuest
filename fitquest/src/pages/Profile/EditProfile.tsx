@@ -1,8 +1,8 @@
-import { IonContent, IonBackButton, IonItem, IonInput, IonHeader, IonItemDivider, IonPage, IonToolbar, IonButtons, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonAlert, IonRouterLink } from '@ionic/react';
+import { IonContent, IonBackButton, IonItem, IonInput, IonHeader, IonItemDivider, IonPage, IonToolbar, IonButtons, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonAlert, IonRouterLink, IonList } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import React, { useState } from 'react';
-import firebase, { signOut, auth } from '../../FirebaseConfig'
-import Login from '../Login screen/Login';
+import React, { useEffect, useState } from 'react';
+import firebase, { signOut, auth, firestore } from '../../FirebaseConfig'
+import './EditProfile.css'
 //import { UserContext } from '../providers/UserProvider'
 
 
@@ -20,15 +20,44 @@ export const EditProfile: React.FC = () => {
     const [height, setHeight] = useState<number>();
     const [weight, setWeight] = useState<number>();
 
+    const [usrDetails, setUsrDetails] = useState<Array<any>>([]);
+    const [a, setA] = useState<string>();
+
 
     const [showAlert1, setShowAlert1] = useState(false);
 
-
-    console.log(auth.currentUser?.email)
-
     //Get the uid from the logged-in user
     //TODO implement this with context or redux
+
     let uid = firebase.auth().currentUser?.uid;
+
+
+    useEffect(() => {
+
+        //Array to store the incoming data 
+        const detailList: any[] = [];
+
+        firestore.collection("Users").doc(uid)
+            .onSnapshot((doc) => {
+                detailList.push(doc.data())
+                setUsrDetails(detailList)
+            })
+
+    }, [uid])
+
+
+    // console.log(usrDetails.map((e: any) =>
+    //     console.log(e.Name)))
+
+
+    // usrDetails.map(
+    //     (e: any) => setText(e.Birthday))
+
+
+
+
+
+
 
     /**
      * Saves the stats into the database
@@ -50,6 +79,7 @@ export const EditProfile: React.FC = () => {
 
     };
 
+    
     return (
         <IonPage>
 
@@ -63,53 +93,82 @@ export const EditProfile: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
-            <IonContent>
+            <IonContent >
 
 
                 {/*Personal information input */}
-                <IonItemDivider color="tertiary">Personal information</IonItemDivider>
+                <IonItemDivider color="medium">Personal information</IonItemDivider>
 
-                <IonItem>
-                    <IonInput value={text} placeholder="Name" onIonChange={e => setText(e.detail.value!)}></IonInput>
-                </IonItem>
+                <div className="user-info">
 
-                <IonItem>
-                    <IonLabel>Gender</IonLabel>
-                    <IonSelect value={gender} placeholder="Select One" onIonChange={e => setGender(e.detail.value)}>
-                        <IonSelectOption value="female">Female</IonSelectOption>
-                        <IonSelectOption value="male">Male</IonSelectOption>
-                    </IonSelect>
-                </IonItem>
-
-                <IonItem>
-                    <IonLabel>Birthdate</IonLabel>
-                    <IonDatetime displayFormat="MMM DD, YYYY" placeholder="Select Date" value={selectedDate} onIonChange={e => setSelectedDate(e.detail.value!)}></IonDatetime>
-                </IonItem>
-
-                <IonItemDivider color="tertiary">Fitness health information</IonItemDivider>
+                    {usrDetails.map((e: any) => (
+                        <IonList>
+                            <IonLabel className="profile-label">Name</IonLabel>
+                            <IonItem>
+                                <IonInput 
+                                onFocus={(e) => e.target.placeholder = ""} 
+                                onBlur={(event) => event.target.placeholder = e.Name}
+                                 value={text} 
+                                 placeholder={e.Name} 
+                                 onIonChange={e => setText(e.detail.value!)}></IonInput>
+                            </IonItem>
 
 
-                <IonItem>
-                    <IonLabel>Height</IonLabel>
-                    <IonInput type="number" value={height} placeholder="Enter height in cm" onIonChange={e => setHeight(parseInt(e.detail.value!, 10))}></IonInput>
-                </IonItem>
+                            <IonLabel className="profile-label">Gender</IonLabel>
+                            <IonItem>
+                               
+                                <IonSelect value={gender} placeholder={e.Gender} onIonChange={e => setGender(e.detail.value)}>
+                                    <IonSelectOption value="female">Female</IonSelectOption>
+                                    <IonSelectOption value="male">Male</IonSelectOption>
+                                </IonSelect>
+                            </IonItem>
 
-                <IonItem>
 
-                    <IonLabel>Weight</IonLabel>
-                    <IonInput type="number" value={weight} placeholder="Enter weight in kg" onIonChange={e => setWeight(parseInt(e.detail.value!, 10))}></IonInput>
-                </IonItem>
+                            <IonLabel className="profile-label">Birthdate</IonLabel>
+                            <IonItem>
+                                <IonDatetime displayFormat="MMM DD, YYYY" placeholder={e.Birthday} value={selectedDate} onIonChange={e => setSelectedDate(e.detail.value!)}></IonDatetime>
+                            </IonItem>
 
+
+                            <IonLabel className="profile-label">Height</IonLabel>
+                            <IonItem>
+                                <IonInput 
+                                onFocus={(e) => e.target.placeholder = ""} 
+                                onBlur={(event) => event.target.placeholder = e.Height}
+                                type="number" value={height} 
+                                placeholder={e.Height} 
+                                onIonChange={e => setHeight(parseInt(e.detail.value!, 10))}>
+                                </IonInput>
+                            </IonItem>
+
+                            <IonLabel className="profile-label">Weight</IonLabel>
+                            <IonItem>
+                                <IonInput 
+                                onFocus={(e) => e.target.placeholder = ""}  
+                                onBlur={(event) => event.target.placeholder = e.Weight}
+                                type="number" value={weight} 
+                                placeholder={e.Weight} onIonChange={e => setWeight(parseInt(e.detail.value!, 10))}>
+                                </IonInput>
+                            </IonItem>
+                        </IonList>
+
+                    ))}
+
+
+
+
+                    {/* <IonItemDivider color="tertiary">Fitness health information</IonItemDivider> */}
+                </div>
 
 
                 {/*Save the stats and return to the user's profile */}
-                <IonButton onClick={() => saveStats()} routerLink="/Profile">Save</IonButton>
+                <IonButton expand="block" onClick={() => saveStats()} routerLink="/Profile">Save</IonButton>
 
 
                 {/*Sign out of the app and return to the Login screen */}
-                <IonButton onClick={signOut} routerLink="/Login">Sign out</IonButton>
+                <IonButton expand="block" onClick={signOut} routerLink="/Login">Sign out</IonButton>
 
-             
+
 
 
             </IonContent>

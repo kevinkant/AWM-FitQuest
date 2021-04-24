@@ -1,6 +1,7 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonText, IonToolbar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { auth, firestore } from '../../../FirebaseConfig';
+import './BweHistory.css'
 
 
 const BweHistory: React.FC = () => {
@@ -84,8 +85,8 @@ const BweHistory: React.FC = () => {
             <IonContent>
 
                 {workouts.map((exDate => (
-                    <IonList>
-                        <IonListHeader color="medium"><IonText color="dark">{exDate.date} </IonText></IonListHeader>
+                    <IonList key={exDate.date}>
+                        <IonListHeader color="medium"><IonText className="list-date" color="dark">{exDate.date} </IonText></IonListHeader>
 
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
@@ -93,9 +94,9 @@ const BweHistory: React.FC = () => {
                                 <IonLabel>
                                     <IonText><b><u>{exDetails.Name}</u></b></IonText>
 
-                                    {exDetails.Workout.map((el: any) => (
+                                    {exDetails.Workout.map((el: any, index: any) => (
 
-                                        <h3>{el.Sets}: {el.Repetitions} reps</h3>
+                                        <h3 key={index}>{el.Sets}: {el.Repetitions} reps</h3>
                                     ))}
 
 

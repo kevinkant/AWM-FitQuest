@@ -62,6 +62,8 @@ const BodyExerciseList: React.FC = () => {
 
     }, [])
 
+    console.log(exercise)
+
 
     /**
      * This function saves a new exercise to the User's personal database

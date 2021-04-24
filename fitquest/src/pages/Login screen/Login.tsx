@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel } from '@ionic/react';
 import { useState } from 'react';
 import './Login.css';
 import { signInWithGoogle, signInWithEmail } from '../../FirebaseConfig'
@@ -20,31 +20,46 @@ const Login: React.FC = () => {
 
   //TODO: Email en password setup
 
+  const submitHandler = (e: any) => {
+    e.preventDefault();
+    console.log("please use correct stuff")
+
+  }
+
+  const userDetailsHandler = () => {
+    
+
+  }
+
   return (
     <IonPage >
-      
+
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle >Login</IonTitle>
         </IonToolbar>
       </IonHeader>
-      
-      <IonContent className="ion-margin" fullscreen>
 
-        <img width="360px" height="200px" src={fqLogin} alt="Logo of FitQuest" />
+      <IonContent className="ion-margin-custom" fullscreen>
 
-        <IonItem className="user-details">
-          <IonLabel position="floating">Email</IonLabel>
-          <IonInput value={userName} onIonChange={e => setUserName(e.detail.value!)}></IonInput>
-        </IonItem>
+        <img className="img-fqlogin" width="360px" height="200px" src={fqLogin} alt="Logo of FitQuest" />
 
-        <IonItem className="user-details">
-          <IonLabel position="floating">Password</IonLabel>
-          <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
-        </IonItem>
+        <form onSubmit={submitHandler}>
+          <IonItem className="user-details">
+            <IonLabel position="floating">Email</IonLabel>
+            <IonInput value={userName} onIonChange={e => setUserName(e.detail.value)}></IonInput>
+          </IonItem>
+
+          <IonItem className="user-details">
+            <IonLabel position="floating">Password</IonLabel>
+            <IonInput type="password" value={password} onIonChange={e => setPassword(e.detail.value!)}></IonInput>
+          </IonItem>
+          <IonButton  shape="round" expand="block" onClick={login}>Login</IonButton>
+        </form>
 
 
-        <IonButton shape="round" expand="block" onClick={login}>Login</IonButton>
+
+        
 
 
         <IonButton shape="round" expand="block" color="danger" onClick={signInWithGoogle}>Sign-in with google</IonButton>

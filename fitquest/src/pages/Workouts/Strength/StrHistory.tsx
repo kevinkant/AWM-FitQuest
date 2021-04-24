@@ -87,19 +87,25 @@ const StrHistory: React.FC = () => {
             <IonContent>
 
                 {workouts.map((exDate => (
-                    <IonList>
+                    <IonList key={exDate.date}>
                         <IonListHeader color="medium"><IonText color="dark">{exDate.date}</IonText> </IonListHeader>
 
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
 
 
-                                <IonLabel key={exDetails.id}>
-                                    <IonText><b><u>{exDetails.Name}</u></b></IonText>
+                                <IonLabel>
+                                    <IonText>
+                                        <b>
+                                            <u>
+                                                {exDetails.Name}
+                                            </u>
+                                        </b>
+                                    </IonText>
 
-                                    {exDetails.Workout.map((el: any) => (
+                                    {exDetails.Workout.map((el: any, index: any) => (
 
-                                        <h3>{el.Sets}: {el.Repetitions} reps @ {el.Weight} kg </h3>
+                                        <h3 key={index} >{el.Sets}: {el.Repetitions} reps @ {el.Weight} kg </h3>
                                     ))}
 
 
