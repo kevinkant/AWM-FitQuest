@@ -37,7 +37,7 @@ const Fitcards: React.FC = () => {
                 </IonCardContent>
             </IonCard>
 
-            <IonCard routerLink="/Cardio">
+            <IonCard routerLink="/Hiit">
                 <img alt="People doing cardio" src={hiit}></img>
                 <IonCardHeader>
                     <IonCardTitle>HIIT Training</IonCardTitle>

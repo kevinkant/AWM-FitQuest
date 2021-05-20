@@ -4,7 +4,7 @@ import React from 'react';
 
 
 
-const BodyRoutines: React.FC = () => {
+const HtRoutines: React.FC = () => {
 
     return (
         <IonPage>
@@ -12,9 +12,9 @@ const BodyRoutines: React.FC = () => {
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="/Strength" />
+                        <IonBackButton defaultHref="/Hiit" />
                     </IonButtons>
-                    History log
+                    HIIT Routines
                 </IonToolbar>
             </IonHeader>
 
@@ -35,4 +35,4 @@ const BodyRoutines: React.FC = () => {
     )
 };
 
-export default BodyRoutines;
+export default HtRoutines;

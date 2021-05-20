@@ -21,7 +21,7 @@ export const EditProfile: React.FC = () => {
     const [weight, setWeight] = useState<number>();
 
     const [usrDetails, setUsrDetails] = useState<Array<any>>([]);
-    const [a, setA] = useState<string>();
+
 
 
     const [showAlert1, setShowAlert1] = useState(false);
@@ -35,28 +35,37 @@ export const EditProfile: React.FC = () => {
     useEffect(() => {
 
         //Array to store the incoming data 
-        const detailList: any[] = [];
+        const detailList: (firebase.firestore.DocumentData | undefined)[] = [];
 
-        firestore.collection("Users").doc(uid)
-            .onSnapshot((doc) => {
+        let docRef = firestore.collection("Users").doc(uid);
+
+        //Realtime of normaal?
+        // firestore.collection("Users").doc(uid)
+        //     .onSnapshot((doc) => {
+        //         detailList.push(doc.data())
+
+        //         detailList.map((e: any )=> (
+        //             console.log(e.Name)
+        //         ))
+
+
+        //     })
+
+        docRef.get().then((doc) => {
+            if (doc.exists) {
+                //console.log("Document data:", doc.data());
                 detailList.push(doc.data())
                 setUsrDetails(detailList)
-            })
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }
+        ).catch((error) => {
+            console.log("Error getting document:", error);
+        });
 
     }, [uid])
-
-
-    // console.log(usrDetails.map((e: any) =>
-    //     console.log(e.Name)))
-
-
-    // usrDetails.map(
-    //     (e: any) => setText(e.Birthday))
-
-
-
-
-
 
 
     /**
@@ -79,7 +88,7 @@ export const EditProfile: React.FC = () => {
 
     };
 
-    
+
     return (
         <IonPage>
 
@@ -105,18 +114,18 @@ export const EditProfile: React.FC = () => {
                         <IonList>
                             <IonLabel className="profile-label">Name</IonLabel>
                             <IonItem>
-                                <IonInput 
-                                onFocus={(e) => e.target.placeholder = ""} 
-                                onBlur={(event) => event.target.placeholder = e.Name}
-                                 value={text} 
-                                 placeholder={e.Name} 
-                                 onIonChange={e => setText(e.detail.value!)}></IonInput>
+                                <IonInput
+                                    onFocus={(e) => e.target.placeholder = ""}
+                                    onBlur={(event) => event.target.placeholder = e.Name}
+                                    value={text}
+                                    placeholder={e.Name}
+                                    onIonChange={e => setText(e.detail.value!)}></IonInput>
                             </IonItem>
 
 
                             <IonLabel className="profile-label">Gender</IonLabel>
                             <IonItem>
-                               
+
                                 <IonSelect value={gender} placeholder={e.Gender} onIonChange={e => setGender(e.detail.value)}>
                                     <IonSelectOption value="female">Female</IonSelectOption>
                                     <IonSelectOption value="male">Male</IonSelectOption>
@@ -132,22 +141,22 @@ export const EditProfile: React.FC = () => {
 
                             <IonLabel className="profile-label">Height</IonLabel>
                             <IonItem>
-                                <IonInput 
-                                onFocus={(e) => e.target.placeholder = ""} 
-                                onBlur={(event) => event.target.placeholder = e.Height}
-                                type="number" value={height} 
-                                placeholder={e.Height} 
-                                onIonChange={e => setHeight(parseInt(e.detail.value!, 10))}>
+                                <IonInput
+                                    onFocus={(e) => e.target.placeholder = ""}
+                                    onBlur={(event) => event.target.placeholder = e.Height}
+                                    type="number" value={height}
+                                    placeholder={e.Height}
+                                    onIonChange={e => setHeight(parseInt(e.detail.value!, 10))}>
                                 </IonInput>
                             </IonItem>
 
                             <IonLabel className="profile-label">Weight</IonLabel>
                             <IonItem>
-                                <IonInput 
-                                onFocus={(e) => e.target.placeholder = ""}  
-                                onBlur={(event) => event.target.placeholder = e.Weight}
-                                type="number" value={weight} 
-                                placeholder={e.Weight} onIonChange={e => setWeight(parseInt(e.detail.value!, 10))}>
+                                <IonInput
+                                    onFocus={(e) => e.target.placeholder = ""}
+                                    onBlur={(event) => event.target.placeholder = e.Weight}
+                                    type="number" value={weight}
+                                    placeholder={e.Weight} onIonChange={e => setWeight(parseInt(e.detail.value!, 10))}>
                                 </IonInput>
                             </IonItem>
                         </IonList>
@@ -167,6 +176,9 @@ export const EditProfile: React.FC = () => {
 
                 {/*Sign out of the app and return to the Login screen */}
                 <IonButton expand="block" onClick={signOut} routerLink="/Login">Sign out</IonButton>
+
+                {/* TODO about page for privacy policy and ToC
+                https://www.freeprivacypolicy.com/live/30a02e71-b1e5-4b32-ab3c-cb8178d83bab */}
 
 
 

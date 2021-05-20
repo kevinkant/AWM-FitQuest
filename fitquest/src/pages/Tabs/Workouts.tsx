@@ -25,7 +25,7 @@ const Workouts: React.FC = () => {
         </IonHeader>
 
         <Fitcards />
-        {/* <IonButton>Add new workout</IonButton> */}
+        
         
       
         

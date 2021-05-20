@@ -62,7 +62,7 @@ const BodyExerciseList: React.FC = () => {
 
     }, [])
 
-    console.log(exercise)
+    
 
 
     /**

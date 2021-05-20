@@ -84,6 +84,8 @@ export const signUpWithEmail = async (username: string, password: string) => {
 export const returnID = () => firebase.auth().currentUser?.uid;
 
 
+
+
 export default firebase;
 
 // export async function loginUser(username: string, password: string) {

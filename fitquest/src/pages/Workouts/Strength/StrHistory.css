@@ -1,0 +1,6 @@
+details > summary {
+    list-style: none;
+  }
+  details > summary::marker {
+    display: none;
+  }
