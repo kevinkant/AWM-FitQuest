@@ -16,12 +16,12 @@ import Login from './pages/Login screen/Login'
 import Home from './pages/Tabs/Home';
 import Workouts from './pages/Tabs/Workouts';
 import Profile from './pages/Tabs/Profile';
-import Achievements from './pages/Tabs/Achievements'
+import Quests from './pages/Tabs/Quests'
 import Diet from './pages/Tabs/Diet'
 import EditProfile from './pages/Profile/EditProfile'
 import Strength from './pages/Workouts/Strength/Strength'
 import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
-import Cardio from './pages/Workouts/Hiit/Hiit'
+import Hiit from './pages/Workouts/Hiit/Hiit'
 import ExerciseList from './pages/Workouts/Strength/ExerciseList';
 import StrHistory from './pages/Workouts/Strength/StrHistory';
 import BweHistory from './pages/Workouts/Bodyweight/BweHistory';
@@ -50,6 +50,9 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import HtExerciseList from './pages/Workouts/Hiit/HtExerciseList';
+import HtRoutines from './pages/Workouts/Hiit/HtRoutines';
+import HtHistory from './pages/Workouts/Hiit/HtHistory';
 
 
 
@@ -57,6 +60,12 @@ import './theme/variables.css';
 const App: React.FC = () => (
   
     <IonApp>
+
+      {/* {!authenticated ? (
+        <IonReactRouter>
+          <Login />
+        </IonReactRouter>
+      ) : the rest} */}
       <IonReactRouter>
 
         <IonTabs>
@@ -82,8 +91,8 @@ const App: React.FC = () => (
               <Profile />
             </Route>
 
-            <Route path="/Achievements">
-              <Achievements />
+            <Route path="/Quests">
+              <Quests />
             </Route>
 
             <Route path="/Diet">
@@ -91,7 +100,7 @@ const App: React.FC = () => (
             </Route>
 
             <Route exact path="/">
-              <Redirect to="/Home" />
+              <Redirect to="/Login" />
             </Route>
 
 
@@ -133,8 +142,20 @@ const App: React.FC = () => (
               <BodyRoutines />
             </Route>
 
-            <Route exact path="/Cardio">
-              <Cardio />
+            <Route exact path="/Hiit">
+              <Hiit />
+            </Route>
+
+            <Route exact path="/HiitHistory">
+              <HtHistory />
+            </Route>
+
+            <Route exact path="/HiitRoutines">
+              <HtRoutines />
+            </Route>
+
+            <Route exact path="/HiitList">
+              <HtExerciseList />
             </Route>
 
           </IonRouterOutlet>
@@ -143,15 +164,15 @@ const App: React.FC = () => (
 
           <IonTabBar slot="bottom">
 
-            <IonTabButton tab="Login" href="/Login">
+            {/* <IonTabButton tab="Login" href="/Login">
               <IonIcon icon={informationOutline} />
               <IonLabel>Login test</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
 
-            <IonTabButton tab="Home" href="/Home">
+            {/* <IonTabButton tab="Home" href="/Home">
               <IonIcon icon={homeOutline} />
               <IonLabel>Home</IonLabel>
-            </IonTabButton>
+            </IonTabButton> */}
 
             {/* <IonTabButton tab="Diet" href="/Diet">
               <IonIcon icon={restaurantOutline} />
@@ -163,9 +184,9 @@ const App: React.FC = () => (
               <IonLabel>Workouts</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="Achievements" href="/Achievements">
+            <IonTabButton tab="Quests" href="/Quests">
               <IonIcon icon={starOutline} />
-              <IonLabel>Achievements</IonLabel>
+              <IonLabel>Quests</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="Profile" href="/Profile">

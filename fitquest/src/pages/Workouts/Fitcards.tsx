@@ -1,7 +1,7 @@
 import { IonContent, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent } from '@ionic/react';
 import { } from 'ionicons/icons';
 import React from 'react';
-import strength from "../../images/strength.jpeg"
+import strength from "../../images/strength.jpg"
 import bwe from "../../images/bwe.jpg"
 import hiit from "../../images/hiit.jpg"
 
@@ -37,7 +37,7 @@ const Fitcards: React.FC = () => {
                 </IonCardContent>
             </IonCard>
 
-            <IonCard routerLink="/Cardio">
+            <IonCard routerLink="/Hiit">
                 <img alt="People doing cardio" src={hiit}></img>
                 <IonCardHeader>
                     <IonCardTitle>HIIT Training</IonCardTitle>

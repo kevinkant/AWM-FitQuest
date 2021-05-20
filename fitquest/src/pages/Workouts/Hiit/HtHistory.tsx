@@ -1,11 +1,10 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonText, IonToolbar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { auth, firestore } from '../../../FirebaseConfig';
-import './StrHistory.css'
+// import './BweHistory.css'
 
 
-
-const StrHistory: React.FC = () => {
+const HtHistory: React.FC = () => {
 
     let uid = auth.currentUser?.uid;
 
@@ -17,11 +16,12 @@ const StrHistory: React.FC = () => {
         //Array to store the incoming data 
         const historyList: any[] = [];
 
-        firestore.collection(`Users/${uid}/Strength Workout History`)
+        firestore.collection(`Users/${uid}/Hiit Workout History`)
             .orderBy("Time", "desc")
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
+                    //console.log(doc.id, " => ", data);
                     let data = doc.data()
 
                     //Push the data to the array together with
@@ -30,6 +30,7 @@ const StrHistory: React.FC = () => {
 
                 });
                 setExLog(historyList)
+
             })
             .catch((error) => {
                 console.log("Error getting documents: ", error);
@@ -37,103 +38,80 @@ const StrHistory: React.FC = () => {
 
     }, [uid])
 
-
     /**
      * TODO write comments
      */
-    let test: any = {}
+    let dataLog: any = {}
 
     for (let el of exLog) {
         const date = el.Time.toDate().toDateString() //Time is saved as a timestamp in firestore doc, hence the conversions
 
         //This will group the exercises by date
         //First a check if the date key exists, if it doesn't, create the key; if it does, push the array as the value.
-        if (test[date]) {
-            test[date].push(el)
+        if (dataLog[date]) {
+            dataLog[date].push(el)
         } else {
-            test[date] = [el]
+            dataLog[date] = [el]
         }
     }
+
+    
 
     /**
      * This array is used
      */
-    const workouts = Object.keys(test).map((date) => {
+    const workouts = Object.keys(dataLog).map((date) => {
         return {
             date,
-            Workouts: test[date]
+            Workouts: dataLog[date]
         };
     });
+
+  
 
     return (
         <IonPage>
 
-
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="/Strength" />
+                        <IonBackButton defaultHref="/Hiit" />
                     </IonButtons>
-                    History log
-                </IonToolbar>
+                HIIT Exercises History Log
+            </IonToolbar>
             </IonHeader>
-
-            {/**
-             * Print exercises to list
-             */}
-
 
             {/* TODO Custom accordion? https://gist.github.com/aaronksaunders/f72c3ec11145af1ed23f4ee4d3c4dd43 */}
             <IonContent>
 
-
                 {workouts.map((exDate => (
-
-
-
                     <IonList key={exDate.date}>
+                        <IonListHeader color="medium"><IonText className="list-date" color="dark">{exDate.date} </IonText></IonListHeader>
 
-                        <IonListHeader color="medium"><IonText color="dark">{exDate.date}</IonText> </IonListHeader>
-
-                        <details>
-                        <summary>View your workouts</summary>
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
 
-                                
-                                    <IonLabel>
-                                        <IonText>
-                                            <b>
-                                                <u>
-                                                
-                                                    {exDetails.Name}
-                                                    
-                                                </u>
-                                            </b>
-                                        </IonText>
+                                <IonLabel>
+                                    <IonText><b><u>{exDetails.Name}</u></b></IonText>
 
-                                        {exDetails.Workout.map((el: any, index: any) => (
+                                    {exDetails.Workout.map((el: any, index: any) => (
 
-                                            <h3 key={index} >{el.Sets}: {el.Repetitions} reps @ {el.Weight} kg </h3>
-                                        ))}
+                                        <h3 key={index}>{el.Sets}: {el.Repetitions} reps</h3>
+                                    ))}
 
 
-                                    </IonLabel>
-                               
+                                </IonLabel>
+
 
                                 {/* <IonButton fill="outline" slot="end" >Edit</IonButton> */}
 
                             </IonItem>
-
                         )))}
-                         </details>
                     </IonList>
-
                 )))}
-
             </IonContent>
         </IonPage>
     )
 }
 
-export default StrHistory
+export default HtHistory;

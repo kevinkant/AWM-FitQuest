@@ -1,6 +1,7 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonListHeader, IonPage, IonText, IonToolbar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import { auth, firestore } from '../../../FirebaseConfig';
+import './BweHistory.css'
 
 
 const BweHistory: React.FC = () => {
@@ -54,6 +55,8 @@ const BweHistory: React.FC = () => {
         }
     }
 
+    
+
     /**
      * This array is used
      */
@@ -64,8 +67,7 @@ const BweHistory: React.FC = () => {
         };
     });
 
-
-
+  
 
     return (
         <IonPage>
@@ -75,45 +77,26 @@ const BweHistory: React.FC = () => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/Bodyweight" />
                     </IonButtons>
-                Bodyweight Exercises list
+                Bodyweight Exercises History Log
             </IonToolbar>
             </IonHeader>
 
-            {/* <IonContent>
-        {exLog.map((el => (
-                <IonList>
-                <IonListHeader color="danger">{el.Time.toDate().toDateString()} </IonListHeader>
-                    
-                        <IonItem key={el.id} >
-                            <IonLabel>
-                                <IonText><b><u>{el.Name}</u></b></IonText>
-                                {el.Workout.map((el: any) => (
-                                    <h3>{el.Sets} - {el.Repetitions} reps</h3>
-                                ))}
-                                
-                            </IonLabel>
-                            
-                        </IonItem>
-                    
-                </IonList>
-                )))} */}
             {/* TODO Custom accordion? https://gist.github.com/aaronksaunders/f72c3ec11145af1ed23f4ee4d3c4dd43 */}
             <IonContent>
 
                 {workouts.map((exDate => (
-                    <IonList>
-                        <IonListHeader color="danger">{exDate.date} </IonListHeader>
+                    <IonList key={exDate.date}>
+                        <IonListHeader color="medium"><IonText className="list-date" color="dark">{exDate.date} </IonText></IonListHeader>
 
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
 
-
-                                <IonLabel key={exDetails.id}>
+                                <IonLabel>
                                     <IonText><b><u>{exDetails.Name}</u></b></IonText>
 
-                                    {exDetails.Workout.map((el: any) => (
+                                    {exDetails.Workout.map((el: any, index: any) => (
 
-                                        <h3>{el.Sets}: {el.Repetitions} reps</h3>
+                                        <h3 key={index}>{el.Sets}: {el.Repetitions} reps</h3>
                                     ))}
 
 
