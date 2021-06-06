@@ -6,8 +6,8 @@ android {
         applicationId "be.kantkevin.fitquest"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 700
-        versionName "0.7.0"
+        versionCode 750
+        versionName "0.7.5"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
