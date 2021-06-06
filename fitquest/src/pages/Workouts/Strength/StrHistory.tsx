@@ -5,6 +5,7 @@ import './StrHistory.css'
 
 
 
+
 const StrHistory: React.FC = () => {
 
     let uid = auth.currentUser?.uid;
@@ -83,7 +84,7 @@ const StrHistory: React.FC = () => {
              */}
 
 
-            {/* TODO Custom accordion? https://gist.github.com/aaronksaunders/f72c3ec11145af1ed23f4ee4d3c4dd43 */}
+           
             <IonContent>
 
 
@@ -121,7 +122,6 @@ const StrHistory: React.FC = () => {
                                     </IonLabel>
                                
 
-                                {/* <IonButton fill="outline" slot="end" >Edit</IonButton> */}
 
                             </IonItem>
 

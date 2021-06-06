@@ -87,7 +87,3 @@ export const returnID = () => firebase.auth().currentUser?.uid;
 
 
 export default firebase;
-
-// export async function loginUser(username: string, password: string) {
-
-// }

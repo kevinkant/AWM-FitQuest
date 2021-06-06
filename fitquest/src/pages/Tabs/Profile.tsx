@@ -1,6 +1,6 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './Profile.css';
-import ProfileLayout from '../Profile/ProfileLayout'
+import EditProfile from '../Profile/EditProfile';
 
 const Profile: React.FC = () => {
 
@@ -20,7 +20,7 @@ const Profile: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        <ProfileLayout />
+        <EditProfile />
 
 
 

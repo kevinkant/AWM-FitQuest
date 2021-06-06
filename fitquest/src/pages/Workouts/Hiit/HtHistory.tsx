@@ -55,7 +55,7 @@ const HtHistory: React.FC = () => {
         }
     }
 
-    
+
 
     /**
      * This array is used
@@ -67,7 +67,7 @@ const HtHistory: React.FC = () => {
         };
     });
 
-  
+
 
     return (
         <IonPage>
@@ -81,32 +81,36 @@ const HtHistory: React.FC = () => {
             </IonToolbar>
             </IonHeader>
 
-            {/* TODO Custom accordion? https://gist.github.com/aaronksaunders/f72c3ec11145af1ed23f4ee4d3c4dd43 */}
+
             <IonContent>
 
                 {workouts.map((exDate => (
                     <IonList key={exDate.date}>
                         <IonListHeader color="medium"><IonText className="list-date" color="dark">{exDate.date} </IonText></IonListHeader>
 
-                        {exDate.Workouts.map(((exDetails: any) => (
-                            <IonItem key={exDetails.id}>
+                        <details>
+                            <summary>View your workouts</summary>
 
-                                <IonLabel>
-                                    <IonText><b><u>{exDetails.Name}</u></b></IonText>
+                            {exDate.Workouts.map(((exDetails: any) => (
+                                <IonItem key={exDetails.id}>
 
-                                    {exDetails.Workout.map((el: any, index: any) => (
+                                    <IonLabel>
+                                        <IonText><b><u>{exDetails.Name}</u></b></IonText>
 
-                                        <h3 key={index}>{el.Sets}: {el.Repetitions} reps</h3>
-                                    ))}
+                                        {exDetails.Workout.map((el: any, index: any) => (
+
+                                            <h3 key={index}>{el.Sets}: {el.Repetitions} reps</h3>
+                                        ))}
 
 
-                                </IonLabel>
+                                    </IonLabel>
 
 
-                                {/* <IonButton fill="outline" slot="end" >Edit</IonButton> */}
 
-                            </IonItem>
-                        )))}
+
+                                </IonItem>
+                            )))}
+                        </details>
                     </IonList>
                 )))}
             </IonContent>

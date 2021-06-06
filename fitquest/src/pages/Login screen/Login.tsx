@@ -1,7 +1,7 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonItem, IonInput, IonButton, IonLabel } from '@ionic/react';
 import { useState } from 'react';
 import './Login.css';
-import { signInWithGoogle, signInWithEmail } from '../../FirebaseConfig'
+import  { signInWithGoogle, signInWithEmail } from '../../FirebaseConfig'
 import fqLogin from "../../images/fqLogin.png"
 
 
@@ -18,18 +18,15 @@ const Login: React.FC = () => {
   }
 
 
-  //TODO: Email en password setup
+
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    console.log("please use correct stuff")
+    console.log("please use correct credentials")
 
   }
 
-  const userDetailsHandler = () => {
-    
-
-  }
+  
 
   return (
     <IonPage >
@@ -56,13 +53,16 @@ const Login: React.FC = () => {
           </IonItem>
           <IonButton  shape="round" expand="block" onClick={login}>Login</IonButton>
         </form>
+        
 
 
 
         
 
 
-        <IonButton shape="round" expand="block" color="danger" onClick={signInWithGoogle}>Sign-in with google</IonButton>
+        <IonButton shape="round" expand="block" color="danger"  onClick={signInWithGoogle}>Sign-in with google</IonButton>
+
+        
 
         <IonButton shape="round" expand="block" color="" routerLink="/Register">Register</IonButton>
 

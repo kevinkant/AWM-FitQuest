@@ -17,7 +17,6 @@ import Home from './pages/Tabs/Home';
 import Workouts from './pages/Tabs/Workouts';
 import Profile from './pages/Tabs/Profile';
 import Quests from './pages/Tabs/Quests'
-import Diet from './pages/Tabs/Diet'
 import EditProfile from './pages/Profile/EditProfile'
 import Strength from './pages/Workouts/Strength/Strength'
 import Bodyweight from './pages/Workouts/Bodyweight/Bodyweight'
@@ -88,16 +87,13 @@ const App: React.FC = () => (
             </Route>
 
             <Route path="/Profile">
-              <Profile />
+              <EditProfile />
             </Route>
 
             <Route path="/Quests">
               <Quests />
             </Route>
 
-            <Route path="/Diet">
-              <Diet />
-            </Route>
 
             <Route exact path="/">
               <Redirect to="/Login" />
@@ -174,10 +170,7 @@ const App: React.FC = () => (
               <IonLabel>Home</IonLabel>
             </IonTabButton> */}
 
-            {/* <IonTabButton tab="Diet" href="/Diet">
-              <IonIcon icon={restaurantOutline} />
-              <IonLabel>Diet</IonLabel>
-            </IonTabButton> */}
+      
 
             <IonTabButton tab="Workouts" href="/Workouts">
               <IonIcon icon={barbell} />
@@ -189,7 +182,7 @@ const App: React.FC = () => (
               <IonLabel>Quests</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="Profile" href="/Profile">
+            <IonTabButton tab="Profile" href="/EditProfile">
               <IonIcon icon={personCircleOutline} />
               <IonLabel>Profile</IonLabel>
             </IonTabButton>
