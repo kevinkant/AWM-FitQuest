@@ -2,11 +2,13 @@ import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, 
 import firebase, { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
+import { useTimer } from 'react-timer-hook';
 // import './BodyWeightList.css'
 
 
 
 const HtExerciseList: React.FC = () => {
+
 
     //UID of the current user
     let uid = auth.currentUser?.uid;

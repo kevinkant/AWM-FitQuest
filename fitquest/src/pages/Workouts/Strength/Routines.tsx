@@ -1,10 +1,100 @@
-import { IonBackButton, IonButton, IonButtons, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonText, IonToolbar } from '@ionic/react';
-import { pin } from 'ionicons/icons';
-//import {firestore} from '../../../FirebaseConfig';
-import React from 'react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonSelect, IonSelectOption, IonText, IonToolbar } from '@ionic/react';
+import firebase, { firestore, auth } from '../../../FirebaseConfig';
+import React, { useEffect, useState } from 'react';
 
 
 const Routines: React.FC = () => {
+
+    let uid = auth.currentUser?.uid;
+
+    //State for the exercise list
+    const [exercise, setExercise] = useState<Array<any>>([]);
+
+    //This modal is used to save a workout to the user's database
+    const [showModalSets, setShowModalSets] = useState(false);
+
+
+
+    //This is used to filter the routines
+    const [routine, setRoutine] = useState<string>('Legs');
+
+
+    //Effect hook to load the data from firstore
+    useEffect(() => {
+
+        //Array to store the incoming data 
+        const exList: any[] = [];
+
+
+        firestore.collection("Strength routines")
+            .where("Name", '==', `${routine}`)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    //console.log(doc.id, " => ", data);
+                    let data = doc.data()
+
+                    //Push the data to the array together with
+                    //document id to function as a key for the list, rest of the data is spread
+                    exList.push({ id: doc.id, ...data })
+
+                });
+                setExercise(exList)
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+
+    }, [routine])
+
+    //State variable used to get the exercise name from the clicked element in the list
+    const [exName, setExname] = useState<string>();
+
+    //These state variables are used to add reps and weights and use those 2 variables to store them into the sets array with the addSet() method below
+    const [reps, setReps] = useState<number>();
+    const [weight, setWeight] = useState<number>();
+    const [sets, setSets] = useState<Array<any>>([]);
+
+    const [count, setCount] = useState<number>(1);
+
+    /**
+     * This updates the set array state of the workout
+     * 
+     * newSet is an object which has 2 keys: repetitions and Weight. When the user adds a set, it's added to completedSets, with the rest of the newSet spread into
+     * completedSets.
+     */
+    const addSet = () => {
+        const newSet = {
+            Sets: `Set ${count}`,
+            Repetitions: reps,
+            Weight: weight
+        };
+
+        const completedSets = [...sets, newSet]
+
+        setSets(completedSets)
+        setCount(count + 1)
+    };
+
+
+    /**
+    * This function saves a new workout to the users personal database
+    * 
+    * It is added to the database with the selected exercise, an array which contains the repetitions and weight and the date the exercise was performed
+    */
+    const saveWorkout = () => {
+        try {
+            return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
+                Name: exName,
+                Workout: sets,
+                Time: firebase.firestore.Timestamp.now()
+            }));
+        } catch (error) {
+            console.error('Error writing new message to database', error);
+        };
+    };
+
 
     return (
         <IonPage>
@@ -18,30 +108,111 @@ const Routines: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
 
-            {/* Verzamel oefeningen in een kaart(of iets anderes) dan elke oefening, naar zelfde modal van exerciselist */}
 
-            <IonContent>
-                <IonText>
-                    Work in Progress
-                </IonText>
 
-                <IonCard>
+
+
+            <IonItem>
+                <IonLabel color="secondary">Select Routine</IonLabel>
+                <IonSelect value={routine} okText="Okay" cancelText="Dismiss" onIonChange={e => setRoutine(e.detail.value)}>
+
+
+                    <IonSelectOption value="Push">Push</IonSelectOption>
+                    <IonSelectOption value="Pull">Pull</IonSelectOption>
+                    <IonSelectOption value="Legs">Legs</IonSelectOption>
+                </IonSelect>
+            </IonItem>
+
+
+
+
+
+            {exercise.map((e => (
+                <IonContent>
+
+                    <IonList>
+                        {e.Exercises.map(((ex: any, index: any) => (
+                            <IonItem key={index} onClick={() => {
+                                setExname(ex)
+                                setShowModalSets(true)
+                            }}>
+                                <IonLabel key={index}>
+                                    {ex}
+                                </IonLabel>
+
+                            </IonItem>
+                        )))}
+                    </IonList>
+                </IonContent>
+            )))}
+
+            {/**
+             * This modal shows a new screen to add completed sets (with repetitions and weight) 
+             * */}
+            <IonModal isOpen={showModalSets} >
+
+                <IonToolbar>
+                    <IonButtons slot="start">
+                        <IonButton fill="solid" color="success" size="small" onClick={() => {
+                            saveWorkout()
+                            setSets([])
+                            setReps(parseInt(""))
+                            setWeight(parseInt(""))
+                            setCount(1)
+                            setShowModalSets(false)
+                            //setShowToast(true)
+                        }}>Complete Workout</IonButton>
+
+                    </IonButtons>
+
+                    <IonButtons slot="end">
+                        <IonButton fill="solid" color="danger" onClick={() => {
+                            //Empty Sets array and clear reps
+                            setSets([])
+                            setReps(parseInt(""))
+                            setWeight(parseInt(""))
+                            setCount(1)
+                            setShowModalSets(false)
+                        }}>Go back</IonButton>
+                    </IonButtons>
+                </IonToolbar>
+
+
+                <IonContent>
                     <IonItem>
-                        <IonIcon icon={pin} slot="start" />
-                        <IonLabel>Push routine</IonLabel>
-                        <IonButton fill="outline" slot="end" routerLink="/Exerciselist">View</IonButton>
+                        <IonInput
+                            value={reps}
+                            required={true}
+                            type="number"
+                            placeholder="Repetitions"
+                            onIonChange={e => setReps(parseInt(e.detail.value!))}>
+                        </IonInput>
                     </IonItem>
 
-                    <IonCardContent>
-                        The Push routine focusses on exercises where you "push the weight away from your body" like the Bench press, Overhead Press, and more.
-                        This routine contains 5 default exercises
-                    </IonCardContent>
-                </IonCard>
+                    <IonItem>
+                        <IonInput
+                            value={weight}
+                            required={true}
+                            type="number"
+                            placeholder="Weight (kg)"
+                            onIonChange={e => setWeight(parseInt(e.detail.value!))}>
+                        </IonInput>
+                    </IonItem>
+                    <IonButton onClick={() => {
+                        setReps(parseInt(""))
+                        setWeight(parseInt(""))
+                        addSet()
+                    }}>Add Set</IonButton>
+                    <IonText>
+                        {sets.map((set) => (
+                            <p key={set.Sets}>{set.Sets}: {set.Repetitions} reps - {set.Weight} kg</p>
+                        ))}
+                    </IonText>
 
+                </IonContent>
+            </IonModal>
 
-            </IonContent>
-
-        </IonPage>
+        </IonPage >
     )
 };
 

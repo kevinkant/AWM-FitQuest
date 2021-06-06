@@ -88,6 +88,10 @@ const BweHistory: React.FC = () => {
                     <IonList key={exDate.date}>
                         <IonListHeader color="medium"><IonText className="list-date" color="dark">{exDate.date} </IonText></IonListHeader>
 
+
+                        <details>
+                            <summary>View your workouts</summary>
+                       
                         {exDate.Workouts.map(((exDetails: any) => (
                             <IonItem key={exDetails.id}>
 
@@ -107,6 +111,7 @@ const BweHistory: React.FC = () => {
 
                             </IonItem>
                         )))}
+                         </details>
                     </IonList>
                 )))}
             </IonContent>

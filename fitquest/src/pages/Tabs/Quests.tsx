@@ -1,7 +1,7 @@
-import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonThumbnail, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useState, useEffect } from 'react';
 import './Quests.css';
-import { auth, firestore } from '../../FirebaseConfig';
+import { firestore } from '../../FirebaseConfig';
 
 const Quests: React.FC = () => {
 
@@ -38,6 +38,13 @@ const Quests: React.FC = () => {
       });
 
   }, [])
+
+  //Checks for achievements
+
+  useEffect(() => {
+
+
+  })
 
 
 

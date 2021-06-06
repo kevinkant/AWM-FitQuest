@@ -1,9 +1,8 @@
-import { IonContent, IonBackButton, IonItem, IonInput, IonHeader, IonItemDivider, IonPage, IonToolbar, IonButtons, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonAlert, IonRouterLink, IonList } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonContent, IonItem, IonInput, IonItemDivider, IonPage, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonList } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import firebase, { signOut, auth, firestore } from '../../FirebaseConfig'
 import './EditProfile.css'
-//import { UserContext } from '../providers/UserProvider'
+
 
 
 
@@ -24,12 +23,11 @@ export const EditProfile: React.FC = () => {
 
 
 
-    const [showAlert1, setShowAlert1] = useState(false);
 
     //Get the uid from the logged-in user
     //TODO implement this with context or redux
 
-    let uid = firebase.auth().currentUser?.uid;
+    let uid = auth.currentUser?.uid;
 
 
     useEffect(() => {
@@ -38,18 +36,6 @@ export const EditProfile: React.FC = () => {
         const detailList: (firebase.firestore.DocumentData | undefined)[] = [];
 
         let docRef = firestore.collection("Users").doc(uid);
-
-        //Realtime of normaal?
-        // firestore.collection("Users").doc(uid)
-        //     .onSnapshot((doc) => {
-        //         detailList.push(doc.data())
-
-        //         detailList.map((e: any )=> (
-        //             console.log(e.Name)
-        //         ))
-
-
-        //     })
 
         docRef.get().then((doc) => {
             if (doc.exists) {
@@ -92,15 +78,7 @@ export const EditProfile: React.FC = () => {
     return (
         <IonPage>
 
-            {/*Back button config */}
-            <IonHeader>
-                <IonToolbar color="primary">
-                    <IonButtons slot="start">
-                        <IonBackButton defaultHref="/profile" />
-                    </IonButtons>
-                    Edit Your Profile
-                </IonToolbar>
-            </IonHeader>
+           
 
             <IonContent >
 
@@ -139,7 +117,7 @@ export const EditProfile: React.FC = () => {
                             </IonItem>
 
 
-                            <IonLabel className="profile-label">Height</IonLabel>
+                            <IonLabel className="profile-label">Height (in CM)</IonLabel>
                             <IonItem>
                                 <IonInput
                                     onFocus={(e) => e.target.placeholder = ""}
@@ -150,7 +128,7 @@ export const EditProfile: React.FC = () => {
                                 </IonInput>
                             </IonItem>
 
-                            <IonLabel className="profile-label">Weight</IonLabel>
+                            <IonLabel className="profile-label">Weight (in KG)</IonLabel>
                             <IonItem>
                                 <IonInput
                                     onFocus={(e) => e.target.placeholder = ""}
