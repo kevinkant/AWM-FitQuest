@@ -3,13 +3,13 @@ import firebase, { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
 import './BodyWeightList.css'
+import axios from 'axios'
 
 
 
 const BodyExerciseList: React.FC = () => {
 
-    //UID of the current user
-    let uid = auth.currentUser?.uid;
+    
 
 
 
@@ -25,10 +25,7 @@ const BodyExerciseList: React.FC = () => {
     //State for the exercise list
     const [exercise, setExercise] = useState<Array<any>>([]);
 
-    //State variables/functions to add a new exercise
-    const [newName, setNewName] = useState<string>();
-    const [newMuscleGroup, setNewMuscleGroup] = useState<string>();
-    const [newDifficulty, setNewDifficulty] = useState<string>();
+    
 
 
     //TODO use filter to query on muscle group
@@ -38,43 +35,67 @@ const BodyExerciseList: React.FC = () => {
     //Effect hook to load the data from the firestore collection
     useEffect(() => {
 
-        //Array to store the incoming data 
-        const exList: any[] = [];
+        let exList: any[] = [];
 
-        firestore.collection("Bodyweight exercises")
-            .orderBy(`${filter}`, 'asc')
-            .limit(10)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", data);
-                    let data = doc.data()
+        let url = "http://localhost:8080/exercise/BodyweightExercises";
 
-                    //Push the data to the array together with
-                    //document id to function as a key for the list and rest of the data is spread
-                    exList.push({ id: doc.id, ...data })
-                });
-                setExercise(exList)
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
+
+        axios.get(url, {
+            params: {},
+            headers: {},
+            withCredentials: true,
+            auth: {
+                username: username,
+                password: pswd
+            }
+        })
+        .then(res => {
+            exList = res.data
+            setExercise(exList)
+        })
 
     }, [])
 
     
 
+    //State variables/functions to add a new exercise
+    const [name, setNewName] = useState<string>();
+    const [muscleGroup, setNewMuscleGroup] = useState<string>();
+    const [difficulty, setNewDifficulty] = useState<string>();
 
     /**
      * This function saves a new exercise to the User's personal database
      */
     function addExercise() {
-        firestore.collection("Users").doc(uid).collection("Personal Bodyweight ExList").add({
-            Name: newName,
-            "Muscle Group": newMuscleGroup,
-            Difficulty: newDifficulty
-        })
-        //console.log("Exercise added")
+
+        //POST request
+
+        let postUrl = "http://localhost:8080/exercise/addHiitExercise";
+
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
+
+
+        axios.post(postUrl,
+            {
+                name,
+                muscleGroup,
+                difficulty,
+            },
+            {
+                params: {},
+                headers: {},
+                withCredentials: true,
+                auth: {
+                    username: username,
+                    password: pswd
+                },
+
+            })
+            .then(res => (console.log(res)))
+     
     }
 
     //State variable used to get the exercise name from the clicked element in the list
@@ -112,16 +133,7 @@ const BodyExerciseList: React.FC = () => {
     * It is added to the database with the selected exercise, an array which contains the repetitions and the date the exercise was performed
     */
     const saveWorkout = () => {
-        try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Bodyweight Workout History").add({
-                Name: exName,
-                Workout: sets,
-                Time: firebase.firestore.Timestamp.now()
-            }));
-        } catch (error) {
-            console.error('Error writing new message to database', error);
-        }
-
+   
 
     }
 
@@ -148,11 +160,11 @@ const BodyExerciseList: React.FC = () => {
                 <IonList>
                     {exercise.map((el => (
                         <IonItem key={el.id} onClick={() => {
-                            setExname(el.Name)
+                            setExname(el.name)
                             setShowModalSets(true)
                         }}>
-                            <IonLabel>{el.Name}</IonLabel>
-                            {el.Difficulty}
+                            <IonLabel>{el.name}</IonLabel>
+                            {el.difficulty}
                         </IonItem>
                     )))}
                 </IonList>
@@ -191,21 +203,21 @@ const BodyExerciseList: React.FC = () => {
                 <IonContent>
                     <IonItem>
                         <IonInput 
-                        value={newName} 
+                        value={name} 
                         placeholder="Exercise Name" 
                         onIonChange={e => setNewName(e.detail.value!)}></IonInput>
                     </IonItem>
 
                     <IonItem>
                         <IonInput 
-                        value={newMuscleGroup} 
+                        value={muscleGroup} 
                         placeholder="Muscle Group" 
                         onIonChange={e => setNewMuscleGroup(e.detail.value!)}></IonInput>
                     </IonItem>
 
                     <IonItem>
                         <IonInput 
-                        value={newDifficulty} 
+                        value={difficulty} 
                         placeholder="Difficulty" 
                         onIonChange={e => setNewDifficulty(e.detail.value!)}></IonInput>
                     </IonItem>

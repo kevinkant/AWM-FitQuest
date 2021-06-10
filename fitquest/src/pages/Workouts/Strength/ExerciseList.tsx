@@ -1,15 +1,15 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonFab, IonFabButton, IonIcon, IonModal, IonButton, IonInput, IonToast, IonText } from '@ionic/react';
-import firebase, { firestore, auth } from '../../../FirebaseConfig';
+//import firebase, { firestore, auth } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
+import axios from 'axios';
 
 
 
 
 const ExerciseList: React.FC = (props) => {
 
-    let uid = auth.currentUser?.uid;
-    
+
 
 
 
@@ -25,57 +25,89 @@ const ExerciseList: React.FC = (props) => {
     //State for the exercise list
     const [exercise, setExercise] = useState<Array<any>>([]);
 
-    //State variables/functions to add a new exercise
-    const [name, setName] = useState<string>();
-    const [muscleGroup, setMuscleGroup] = useState<string>();
-    const [material, setMaterial] = useState<string>();
 
 
-    //TODO use filter to query on muscle group
-    const filter = "Muscle Group";
+
+
 
 
 
     //Effect hook to load the data from firstore
     useEffect(() => {
 
-        //Array to store the incoming data 
-        const exList: any[] = [];
+        //GET request
+        let exList: any[] = [];
 
-        firestore.collection("Strength exercises")
-            .orderBy(`${filter}`, 'asc')
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", data);
-                    let data = doc.data()
+        let url = "http://localhost:8080/exercise/StrengthExercises";
 
-                    //Push the data to the array together with
-                    //document id to function as a key for the list, rest of the data is spread
-                    exList.push({ id: doc.id, ...data })
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
 
-                });
+        axios.get(url, {
+            params: {},
+            headers: {},
+            withCredentials: true,
+            auth: {
+                username: username,
+                password: pswd
+            }
+        })
+            .then(res => {
+                exList = res.data
                 setExercise(exList)
             })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
+
+
 
 
     }, [])
 
 
 
+    //State variables/functions to add a new exercise
+    const [name, setName] = useState<string>();
+    const [muscleGroup, setMuscleGroup] = useState<string>();
+    const [material, setMaterial] = useState<string>();
+
     /**
      * This function saves a new exercise to the User's personal database
      */
     function addExercise() {
-        firestore.collection("Users").doc(uid).collection("Personal ExList").add({
-            Name: name,
-            "Muscle Group": muscleGroup,
-            Material: material
-        })
-        console.log("Exercise added")
+        // firestore.collection("Users").doc(uid).collection("Personal ExList").add({
+        //     Name: name,
+        //     "Muscle Group": muscleGroup,
+        //     Material: material
+        // })
+        // console.log("Exercise added")
+
+
+
+        //POST request
+
+        let postUrl = "http://localhost:8080/exercise/addStrengthExercise";
+
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
+
+
+        axios.post(postUrl,
+            {
+                name,
+                muscleGroup,
+                material
+            },
+            {
+                params: {},
+                headers: {},
+                withCredentials: true,
+                auth: {
+                    username: username,
+                    password: pswd
+                },
+
+            })
+            .then(res => (console.log(res)))
+
     };
 
 
@@ -115,15 +147,15 @@ const ExerciseList: React.FC = (props) => {
     * It is added to the database with the selected exercise, an array which contains the repetitions and weight and the date the exercise was performed
     */
     const saveWorkout = () => {
-        try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
-                Name: exName,
-                Workout: sets,
-                Time: firebase.firestore.Timestamp.now()
-            }));
-        } catch (error) {
-            console.error('Error writing new message to database', error);
-        };
+        // try {
+        //     return (firebase.firestore().collection("Users").doc(uid).collection("Strength Workout History").add({
+        //         Name: exName,
+        //         Workout: sets,
+        //         Time: firebase.firestore.Timestamp.now()
+        //     }));
+        // } catch (error) {
+        //     console.error('Error writing new message to database', error);
+        // };
     };
 
 
@@ -151,11 +183,11 @@ const ExerciseList: React.FC = (props) => {
                 <IonList>
                     {exercise.map((el => (
                         <IonItem key={el.id} onClick={() => {
-                            setExname(el.Name)
+                            setExname(el.name)
                             setShowModalSets(true)
                         }}>
-                            <IonLabel>{el.Name}</IonLabel>
-                            {el["Muscle Group"]}
+                            <IonLabel>{el.name}</IonLabel>
+                            {el.muscleGroup}
                         </IonItem>
                     )))}
                 </IonList>
@@ -177,7 +209,6 @@ const ExerciseList: React.FC = (props) => {
                             addExercise()
                             setShowModalAdd(false)
                             setShowToast(true)
-                            //TODO  functie om de lijst te refreshen
                         }}>Add exercise</IonButton>
 
                     </IonButtons>
@@ -267,16 +298,17 @@ const ExerciseList: React.FC = (props) => {
                             onIonChange={e => setWeight(parseInt(e.detail.value!))}>
                         </IonInput>
                     </IonItem>
-                    <IonButton onClick={() => { 
+                    <IonButton onClick={() => {
                         setReps(parseInt(""))
                         setWeight(parseInt(""))
-                        addSet() }}>Add Set</IonButton>
+                        addSet()
+                    }}>Add Set</IonButton>
                     <IonText>
                         {sets.map((set) => (
                             <p key={set.Sets}>{set.Sets}: {set.Repetitions} reps - {set.Weight} kg</p>
                         ))}
                     </IonText>
-                    
+
                 </IonContent>
             </IonModal>
 

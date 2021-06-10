@@ -1,6 +1,8 @@
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonInput, IonItem, IonLabel, IonList, IonModal, IonPage, IonSelect, IonSelectOption, IonText, IonToolbar } from '@ionic/react';
 import firebase, { firestore, auth } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios'
+import { deleteDatabase } from 'workbox-core/_private';
 
 
 const Routines: React.FC = () => {
@@ -22,31 +24,37 @@ const Routines: React.FC = () => {
     //Effect hook to load the data from firstore
     useEffect(() => {
 
-        //Array to store the incoming data 
-        const exList: any[] = [];
+        let exList: any[] = [];
+
+        let url = "http://localhost:8081/routine/StrengthRoutines/";
+
+        let username = "fitnessAppRoutineService"
+        let pswd = "fitnessAppRoutineServicePWD"
+
+        axios.get(url, {
+            params: {},
+            headers: {},
+            withCredentials: true,
+            auth: {
+                username: username,
+                password: pswd
+            }
+        })
+        .then(res => {
+            exList = res.data
+            setExercise(exList)
+            console.log(
+                exList.map(e => console.log(e.exercises.map((el: any) => (
+                    console.log(el.name)
+                )
+                )))
+            )
+        })
+       
 
 
-        firestore.collection("Strength routines")
-            .where("Name", '==', `${routine}`)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", data);
-                    let data = doc.data()
 
-                    //Push the data to the array together with
-                    //document id to function as a key for the list, rest of the data is spread
-                    exList.push({ id: doc.id, ...data })
-
-                });
-                setExercise(exList)
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
-
-
-    }, [routine])
+    }, [])
 
     //State variable used to get the exercise name from the clicked element in the list
     const [exName, setExname] = useState<string>();
@@ -112,7 +120,7 @@ const Routines: React.FC = () => {
 
 
 
-            <IonItem>
+            {/* <IonItem>
                 <IonLabel color="secondary">Select Routine</IonLabel>
                 <IonSelect value={routine} okText="Okay" cancelText="Dismiss" onIonChange={e => setRoutine(e.detail.value)}>
 
@@ -121,7 +129,7 @@ const Routines: React.FC = () => {
                     <IonSelectOption value="Pull">Pull</IonSelectOption>
                     <IonSelectOption value="Legs">Legs</IonSelectOption>
                 </IonSelect>
-            </IonItem>
+            </IonItem> */}
 
 
 
@@ -129,20 +137,24 @@ const Routines: React.FC = () => {
 
             {exercise.map((e => (
                 <IonContent>
+                    {e.name}
 
                     <IonList>
-                        {e.Exercises.map(((ex: any, index: any) => (
+                        {e.exercises.map(((ex: any, index: any) => (
                             <IonItem key={index} onClick={() => {
                                 setExname(ex)
                                 setShowModalSets(true)
                             }}>
-                                <IonLabel key={index}>
-                                    {ex}
-                                </IonLabel>
+                                
+                                 <IonLabel key={ex.id}>
+                                 {ex.name}
+                             </IonLabel>
 
                             </IonItem>
                         )))}
                     </IonList>
+
+
                 </IonContent>
             )))}
 

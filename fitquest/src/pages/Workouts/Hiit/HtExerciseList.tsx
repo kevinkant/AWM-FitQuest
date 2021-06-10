@@ -1,8 +1,8 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonToolbar, IonList, IonItem, IonLabel, IonButton, IonFab, IonFabButton, IonIcon, IonInput, IonModal, IonToast, IonText } from '@ionic/react';
-import firebase, { auth, firestore } from '../../../FirebaseConfig';
 import React, { useEffect, useState } from 'react';
 import { add } from 'ionicons/icons';
-import { useTimer } from 'react-timer-hook';
+import axios from 'axios'
+
 // import './BodyWeightList.css'
 
 
@@ -10,8 +10,6 @@ import { useTimer } from 'react-timer-hook';
 const HtExerciseList: React.FC = () => {
 
 
-    //UID of the current user
-    let uid = auth.currentUser?.uid;
 
 
 
@@ -27,10 +25,7 @@ const HtExerciseList: React.FC = () => {
     //State for the exercise list
     const [exercise, setExercise] = useState<Array<any>>([]);
 
-    //State variables/functions to add a new exercise
-    const [newName, setNewName] = useState<string>();
-    const [newDifficulty, setNewDifficulty] = useState<string>();
-
+    
 
   
 
@@ -38,41 +33,67 @@ const HtExerciseList: React.FC = () => {
     //Effect hook to load the data from the firestore collection
     useEffect(() => {
 
-        //Array to store the incoming data 
-        const exList: any[] = [];
+        let exList: any[] = [];
 
-        firestore.collection("Hiit")
-            .limit(10)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    //console.log(doc.id, " => ", data);
-                    let data = doc.data()
+        let url = "http://localhost:8080/exercise/HiitExercises";
 
-                    //Push the data to the array together with
-                    //document id to function as a key for the list and rest of the data is spread
-                    exList.push({ id: doc.id, ...data })
-                });
-                setExercise(exList)
-            })
-            .catch((error) => {
-                console.log("Error getting documents: ", error);
-            });
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
+
+        axios.get(url, {
+            params: {},
+            headers: {},
+            withCredentials: true,
+            auth: {
+                username: username,
+                password: pswd
+            }
+        })
+        .then(res => {
+            exList = res.data
+            setExercise(exList)
+        })
+       
 
     }, [])
 
     
 
 
+    //State variables/functions to add a new exercise
+    const [name, setNewName] = useState<string>();
+    const [difficulty, setNewDifficulty] = useState<string>();
+
     /**
      * This function saves a new exercise to the User's personal database
      */
     function addExercise() {
-        firestore.collection("Users").doc(uid).collection("Personal HIIT ExList").add({
-            Name: newName,
-            Difficulty: newDifficulty
-        })
-        //console.log("Exercise added")
+
+        //POST request
+
+        let postUrl = "http://localhost:8080/exercise/addHiitExercise";
+
+        let username = "fitnessAppExerciseService"
+        let pswd = "fitnessAppExerciseServicePWD"
+
+
+        axios.post(postUrl,
+            {
+                name,
+                difficulty,
+            },
+            {
+                params: {},
+                headers: {},
+                withCredentials: true,
+                auth: {
+                    username: username,
+                    password: pswd
+                },
+
+            })
+            .then(res => (console.log(res)))
+     
     }
 
     //State variable used to get the exercise name from the clicked element in the list
@@ -110,15 +131,7 @@ const HtExerciseList: React.FC = () => {
     * It is added to the database with the selected exercise, an array which contains the repetitions and the date the exercise was performed
     */
     const saveWorkout = () => {
-        try {
-            return (firebase.firestore().collection("Users").doc(uid).collection("Hiit Workout History").add({
-                Name: exName,
-                Workout: sets,
-                Time: firebase.firestore.Timestamp.now()
-            }));
-        } catch (error) {
-            console.error('Error writing new message to database', error);
-        }
+     
 
 
     }
@@ -146,11 +159,11 @@ const HtExerciseList: React.FC = () => {
                 <IonList>
                     {exercise.map((el => (
                         <IonItem key={el.id} onClick={() => {
-                            setExname(el.Name)
+                            setExname(el.name)
                             setShowModalSets(true)
                         }}>
-                            <IonLabel>{el.Name}</IonLabel>
-                            {el.Difficulty}
+                            <IonLabel>{el.name}</IonLabel>
+                            {el.difficulty}
                         </IonItem>
                     )))}
                 </IonList>
@@ -189,7 +202,7 @@ const HtExerciseList: React.FC = () => {
                 <IonContent>
                     <IonItem>
                         <IonInput 
-                        value={newName} 
+                        value={name} 
                         placeholder="Exercise Name" 
                         onIonChange={e => setNewName(e.detail.value!)}></IonInput>
                     </IonItem>
@@ -197,7 +210,7 @@ const HtExerciseList: React.FC = () => {
 
                     <IonItem>
                         <IonInput 
-                        value={newDifficulty} 
+                        value={difficulty} 
                         placeholder="Difficulty" 
                         onIonChange={e => setNewDifficulty(e.detail.value!)}></IonInput>
                     </IonItem>
